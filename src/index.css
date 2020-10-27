@@ -5,9 +5,53 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(28, 28, 27);
+ 
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.login-div {
+  margin-left: 24%;
+  margin-top: 35%;
+  
+}
+
+.background {
+  background-image: url(./images/logo.jpg);
+  width: 100%;
+  height: 100%;
+  position: absolute; 
+  background-size: cover;
+  background-position-y: 200%;
+  
+}
+
+/* .bandpage {
+  background-color: rgb(28, 28, 27);
+  width: 100%;
+  height: 100%; 
+  color: white;
+} */
+
+.custom-select {
+  border-radius: 10px;
+  margin-left: 0px;
+}
+
+.loginLink {
+  margin-left: 17%;
+  color: white;
+}
+
+.loginLink:hover {
+  color: rgb(110, 44, 69)
+}
+
+.navbar {
+  background-image: linear-gradient(to right, rgb(110, 44, 69), rgb(115, 106, 106), rgb(105, 12, 15));
 }
