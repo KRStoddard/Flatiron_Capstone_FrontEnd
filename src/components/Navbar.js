@@ -14,6 +14,7 @@ class Navbar extends React.Component{
                         <Link className="nav-link" to={`/playlists/`}>Playlists</Link>
                         <a className="nav-link" href="#">Shows</a>
                         <a className="nav-link" href="#">Stats</a>
+                        <Link className="nav-link" to="/login" onClick={() => localStorage.removeItem('bandToken')}>Logout</Link>
                     </div>
                  </div>
             </nav>

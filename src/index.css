@@ -55,3 +55,7 @@ code {
 .navbar {
   background-image: linear-gradient(to right, rgb(110, 44, 69), rgb(115, 106, 106), rgb(105, 12, 15));
 }
+
+.playlist-cont {
+  color: white;
+}

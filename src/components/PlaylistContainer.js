@@ -1,10 +1,13 @@
 import React from 'react'
-import {API_ROOT} from '../constants/index'
+import {API_ROOT, HEADERS} from '../constants/index'
+import Navbar from './Navbar'
+
 
 class PlaylistContainer extends React.Component{
 
     state = {
-        playlists: []
+        playlists: [],
+        bandId: ""
     }
 
     noPlaylists = () => {
@@ -18,17 +21,29 @@ class PlaylistContainer extends React.Component{
     }
 
     componentDidMount(){
-        fetch(`${API_ROOT}/playlists`)
+
+        const reqObj = {
+            method: 'GET',
+            headers: HEADERS
+        }
+
+        fetch(`${API_ROOT}/playlists`, reqObj)
         .then(resp => resp.json())
-        .then(playlists => {
-            playlists = playlists.filter(playlist => playlist.band_id === this.props.match.params.id)
-            console.log(playlists)
+        .then(data => { 
+            if (data.message) {
+                this.props.history.push('/login')
+            }
+            else {
+                const playlists = data.playlists.filter(playlist => playlist.band_id === data.band.id)
+                this.setState({playlists})
+            }
         })
     }
 
     render(){
         return(
-            <div>
+            <div className="playlist-cont">
+            <Navbar/>
             {this.state.playlists.length > 0 ?
             this.renderPlaylists()
             :
