@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import {API_ROOT, HEADERS} from '../constants/index'
+import {API_ROOT, createHeaders} from '../constants/index'
 
 class Login extends React.Component{
 
@@ -10,7 +10,7 @@ class Login extends React.Component{
         e.preventDefault()
         const reqObj = {
             method: 'POST',
-            headers: HEADERS,
+            headers: createHeaders(),
             body: JSON.stringify({"name": e.target.name.value, "password": e.target.password.value})
         }
 

@@ -1,6 +1,7 @@
 import React from 'react'
-import {API_ROOT, HEADERS} from '../constants/index'
+import {API_ROOT, createHeaders} from '../constants/index'
 import Navbar from './Navbar'
+import Playlist from './Playlist'
 
 
 class PlaylistContainer extends React.Component{
@@ -17,19 +18,22 @@ class PlaylistContainer extends React.Component{
     }
 
     renderPlaylists = () => {
-        return this.state.playlists.map(playlist => <p>{playlist.name}</p>)
+        return this.state.playlists.map(playlist => {
+            return <Playlist key={playlist.id} playlist={playlist} />
+        })
     }
 
     componentDidMount(){
 
         const reqObj = {
             method: 'GET',
-            headers: HEADERS
+            headers: createHeaders()
         }
 
+        console.log(reqObj)
         fetch(`${API_ROOT}/playlists`, reqObj)
         .then(resp => resp.json())
-        .then(data => { 
+        .then(data => { console.log(data)
             if (data.message) {
                 this.props.history.push('/login')
             }
@@ -43,7 +47,7 @@ class PlaylistContainer extends React.Component{
     render(){
         return(
             <div className="playlist-cont">
-            <Navbar/>
+            <Navbar props={this.props} />
             {this.state.playlists.length > 0 ?
             this.renderPlaylists()
             :

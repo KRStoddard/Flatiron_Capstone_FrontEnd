@@ -6,7 +6,7 @@ class BandPage extends React.Component{
     render(){
         return(
             <div className="bandpage">
-                <Navbar/>
+                <Navbar props={this.props} />
                 <Link to="/NewShow">New Show</Link>
             </div>
         )

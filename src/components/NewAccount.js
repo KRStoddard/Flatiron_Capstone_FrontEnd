@@ -1,6 +1,6 @@
 import React from 'react'
 import {Fragment} from 'react'
-import {HEADERS, API_ROOT} from '../constants/index'
+import {createHeaders, API_ROOT} from '../constants/index'
 
 class NewAccount extends React.Component{
 
@@ -18,7 +18,7 @@ class NewAccount extends React.Component{
         const newBand = {name: name.value, username: username.value, email: email.value, password: password.value}
         const reqObj = {
             method: 'POST',
-            headers: HEADERS,
+            headers: createHeaders(),
             body: JSON.stringify({band: newBand})
         }
 
