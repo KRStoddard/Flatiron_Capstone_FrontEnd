@@ -7,7 +7,8 @@ class BandShowPage extends React.Component{
     
     state = {
         playlist: {},
-        additions: []
+        additions: [],
+        requests: []
     }
 
     removeSong = songId => {
@@ -35,12 +36,18 @@ class BandShowPage extends React.Component{
            )})
     }
 
+    renderRequests = () => {
+        return this.state.requests.map(request => {
+            return <p>{request.song.name}, {request.song.artist}</p>
+        })
+    }
+
     componentDidMount(){
 
 
         fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, GET_REQUEST())
         .then(resp => resp.json())
-        .then(show => this.setState({playlist: show.playlist, additions: show.playlist_additions}))
+        .then(show => this.setState({playlist: show.playlist, additions: show.playlist_additions, requests: show.requests}))
     }
 
     // endShow = () => {
@@ -60,6 +67,7 @@ class BandShowPage extends React.Component{
                 <Navbar props={this.props}/>
                 <div>
                     <h1>Requests</h1>
+                    {this.renderRequests()}
                 </div>
                 <div>
                     <h1>Playlist</h1>

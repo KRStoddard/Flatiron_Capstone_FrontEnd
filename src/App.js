@@ -9,7 +9,8 @@ import ShowPlaylist from './components/ShowPlaylist'
 import AddSong from './components/AddSong'
 import BandShowPage from './components/BandShowPage'
 import Homepage from './components/Homepage'
-import AttendeeHomepage from './components/AttendeeHomepage';
+import AttendeeHomepage from './components/AttendeeHomepage'
+import AttendeeShowPage from './components/AttendeeShowPage'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/playlists/:id/AddSong' component={AddSong} />
         <Route path='/playlists/:id' component={ShowPlaylist} />
         <Route exact path='/playlists' component={PlaylistContainer} />
+        <Route path='/attendee/show/:id' component={AttendeeShowPage} />
         <Route path='/attendeepage' component={AttendeeHomepage} />
         <Route path='/login' component={Login}/>
         <Route path='/' component={Homepage} />
