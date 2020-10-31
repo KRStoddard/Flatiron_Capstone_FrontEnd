@@ -1,4 +1,6 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,500;1,700&family=Allerta+Stencil&family=Faster+One&display=swap');
+
+body, html {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -6,6 +8,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: rgb(28, 28, 27);
+  height: 100%;
+  font-family: 'Allerta Stencil', sans-serif;
  
 }
 
@@ -15,52 +19,219 @@ code {
     monospace;
 }
 
-.login-div {
-  margin-left: 24%;
-  margin-top: 35%;
-  
+.container h1 {
+  font-family: 'Faster One', cursive;
+  background: -webkit-linear-gradient( white, rgb(110, 44, 69), rgb(66, 13, 22));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 3rem;
 }
 
-.background {
-  background-image: url(./images/logo.jpg);
-  width: 100%;
-  height: 100%;
-  position: absolute; 
-  background-size: cover;
-  background-position-y: 200%;
-  
-}
-
-/* .bandpage {
-  background-color: rgb(28, 28, 27);
-  width: 100%;
-  height: 100%; 
+.container h2{
+  font-size: 1rem;
   color: white;
-} */
+  text-align: left;
+  margin-left: 30%;
+  margin-bottom: 7%;
+  position: relative;
+}
 
-.custom-select {
-  border-radius: 10px;
-  margin-left: 0px;
+.home-link {
+  color: rgb(110, 44, 69);
+  font-size: 1.5rem;
+}
+
+.home-link:hover {
+  color: rgb(66, 13, 22);
+}
+
+#bandlink {
+  margin-right: 4%;
+}
+#attlink {
+  margin-left: 4%;
+}
+
+.container {
+  margin-top: 20%;
+}
+
+.loginhead {
+  margin-bottom: 2%;
+}
+
+.loginform {
+  margin-bottom: 3%;
+}
+
+.btn {
+  background-color: rgb(110, 44, 69);
+  border-color: white;
+  margin-bottom: .7%;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: rgb(66, 13, 22)!important;
+  border-color: grey!important;
+  color: grey!important;
+  box-shadow: 0 1px 1px rgba(66, 13, 22, 0.075)!important;
+  outline: 0 none!important;
 }
 
 .loginLink {
-  margin-left: 17%;
-  color: white;
+  font-size: 1rem;
 }
 
-.loginLink:hover {
-  color: rgb(110, 44, 69)
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus{
+  border-color: rgb(110, 44, 69);
+  box-shadow: 0 1px 1px rgba(66, 13, 22, 0.075);
+  outline: 0 none;
 }
 
 .navbar {
-  background-image: linear-gradient(to right, rgb(110, 44, 69), rgb(115, 106, 106), rgb(105, 12, 15));
+  background-image: linear-gradient(to right, rgb(110, 44, 69), rgb(115, 106, 106), rgb(66, 13, 22));
+  color: white;
+  position: sticky;
 }
 
-.playlist-cont {
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: white;
+}
+
+.navbar.navbar-expand-lg.navbar-light.bg-light a {
   color: white;
+}
+.navbar.navbar-expand-lg.navbar-light.bg-light a:hover {
+  color: rgb(66, 13, 22);
+}
+
+.navbar-brand {
+  font-family: 'Faster One', cursive;
+}
+
+.nShowLink {
+  color: white;
+  font-size: 3rem;
+}
+
+.nShowLink:hover {
+  color: rgb(110, 44, 69);
+}
+
+.new-form {
+  width: 65%;
+  margin: auto;
+  text-align: center;
+  margin-top: 15%;
+  color: white;
+  padding: 2%;
+  border-radius: 20px;
+    -webkit-box-shadow: 0 0 20px 5px rgb(66, 13, 22);
+    -moz-box-shadow: 0 0 20px 5px rgb(66, 13, 22);
+    box-shadow: 0 0 20px 5px rgb(66, 13, 22);
+}
+.new-form h2 {
+  margin-bottom: 10%;
+}
+
+.new-form input,
+.new-form select {
+  margin-bottom: 2%;
 }
 
 .show-playlist {
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
   color: white;
-  margin-left: 300px;
 }
+
+.band-reqs {
+  width: 50%;
+  float: left;
+  height: 100%;
+  text-align: center;
+}
+.band-list {
+  width: 50%;
+  float: right;
+  height: 100%;
+  justify-content: center;
+}
+.show-playlist h2,
+.show-playlist h3 {
+  text-align: center;
+}
+
+.listsongs {
+  margin-bottom: 4%;
+}
+
+.listsongs button {
+  margin-left: 35%;
+}
+
+
+
+
+/* .bg h1 {
+  font-family: 'Faster One', cursive;
+  font-size: 3.8rem;
+  background: -webkit-linear-gradient( white, rgb(110, 44, 69), rgb(66, 13, 22));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  text-align: center;
+} */
+/* .bg h1 {
+  font-family: 'Faster One', cursive;
+  font-size: 300%;
+  background: -webkit-linear-gradient( white, rgb(110, 44, 69), rgb(66, 13, 22));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: absolute;
+}
+
+.bg h2 {
+  position: absolute;
+  margin-top: 10%;
+}
+
+.bg {
+  color: white;
+  height: 30rem;
+  margin-top: 30%;
+  margin-left: 15%;
+}
+
+
+.login-div {
+}
+
+
+
+.navbar {
+  background-image: linear-gradient(to right, rgb(110, 44, 69), rgb(115, 106, 106), rgb(105, 12, 15));
+} */
+
+

@@ -54,8 +54,9 @@ class NewShow extends React.Component{
         return(
             <div>
                 <Navbar props={this.props} />
+                <div className="new-form">
                 <h2>Start a New Show!</h2>
-            <form onSubmit={this.handleSubmit}>
+            <form className="justify-content-center" onSubmit={this.handleSubmit}>
                 <input className="form-control" name="venue" placeholder="Venue Name"/>
                 <select onChange={this.handleChange} name="playlist" class="form-control" id="exampleFormControlSelect1">
                     <option selected disabled value="">Choose...</option>
@@ -69,6 +70,7 @@ class NewShow extends React.Component{
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            </div>
             </div>
         )
     }

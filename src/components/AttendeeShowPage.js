@@ -17,8 +17,8 @@ class AttendeeShowPage extends React.Component{
             body: JSON.stringify({request: newReq})
         }
         fetch(`${API_ROOT}/requests`, reqObj)
-        .then(resp => resp.json())
-        .then(request => console.log(request))
+        // .then(resp => resp.json())
+        // .then(request => console.log(request))
     }
 
     renderSongs = () => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import {API_ROOT, createHeaders, GET_REQUEST} from '../constants/index'
 import Navbar from './Navbar'
+import {ActionCableConsumer} from '@thrash-industries/react-actioncable-provider'
 
 class BandShowPage extends React.Component{
 
@@ -29,18 +30,44 @@ class BandShowPage extends React.Component{
         const adds = this.state.additions.filter(add => add.played !== true)
         return adds.map(add => 
         {return (
-            <div>
+            <div className="listsongs">
            <p>{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}</p>
-           <button onClick={() => this.removeSong(add.song.id)}>Mark as Played</button>
+           <button className="btn" onClick={() => this.removeSong(add.song.id)}>Mark as Played</button>
            </div>
            )})
     }
 
     renderRequests = () => {
-        return this.state.requests.map(request => {
-            return <p>{request.song.name}, {request.song.artist}</p>
-        })
+         return this.state.requests.map(request => {
+             <div className="listsongs">
+             return <p>{request.song.name}, {request.song.artist}</p>
+             </div>
+         })
     }
+
+    handleRequests = response => {
+        const {request} = response
+        const show = parseInt(request.show_id, 10)
+        const thisShow = parseInt(this.props.match.params.id, 10)
+        if (show === thisShow) {
+            const num = parseInt((this.state.requests.filter(req => req.song.id === request.song.id).length), 10)
+            if (num === 0) {
+                this.setState({requests: [...this.state.requests, request]})
+            }
+        }
+        
+    }
+
+    //  array_move = (arr, old_index, new_index) => {
+    //     if (new_index >= arr.length) {
+    //         var k = new_index - arr.length + 1
+    //         while (k--) {
+    //             arr.push(undefined)
+    //         }
+    //     }
+    //     arr.splice(new_index, 0, arr.splice(old_index, 1)[0])
+    //     return arr
+    // }
 
     componentDidMount(){
 
@@ -63,19 +90,26 @@ class BandShowPage extends React.Component{
 
     render(){
         return(
-            <div className="show-playlist">
+            <>
                 <Navbar props={this.props}/>
-                <div>
-                    <h1>Requests</h1>
+                <div className="show-playlist">
+                <div className="band-reqs">
+                    <h2>Requests</h2>
+                    <button className="btn" onClick={this.endShow}>End Requests</button>
                     {this.renderRequests()}
+                    <ActionCableConsumer 
+                        channel={{channel: 'RequestsChannel'}}
+                        onReceived={this.handleRequests}
+                    />
                 </div>
-                <div>
-                    <h1>Playlist</h1>
-                    <h2>{this.state.playlist.name}</h2>
+                <div className="band-list">
+                    <h2>Playlist</h2>
+                    <h3>{this.state.playlist.name}</h3>
                         {this.renderSongs()}
                 </div>
-                <button onClick={this.endShow}>End Requests</button>
+                
             </div>
+            </>
         )
     }
 }
