@@ -2,6 +2,7 @@ import React from 'react'
 import {API_ROOT, createHeaders, GET_REQUEST} from '../constants/index'
 import Navbar from './Navbar'
 import {ActionCableConsumer} from '@thrash-industries/react-actioncable-provider'
+import {Link} from 'react-router-dom'
 
 class BandShowPage extends React.Component{
 
@@ -20,10 +21,10 @@ class BandShowPage extends React.Component{
             body: JSON.stringify(newAddition)
         }
         fetch(`${API_ROOT}/playlist_additions/${songId}`, reqObj)
-        .then(resp => resp.json())
-        .then(addition => {
-            console.log(addition)
-        })
+        // .then(resp => resp.json())
+        // .then(addition => {
+        //     console.log(addition)
+        // })
     }
 
     renderSongs = () => {
@@ -31,8 +32,9 @@ class BandShowPage extends React.Component{
         return adds.map(add => 
         {return (
             // <div className="listsongs">
-           <li className="list-group-item">{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}</li>
-        //    {/* <button className="btn" onClick={() => this.removeSong(add.song.id)}>Mark as Played</button> */}
+           <li className="list-group-item">{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}<br></br><br></br>
+        //    <Link onClick={() => this.removeSong(add.song.id)}>Mark as Played</Link>
+        </li>
         //    </div>
            )})
     }

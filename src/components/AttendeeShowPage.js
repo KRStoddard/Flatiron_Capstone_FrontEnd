@@ -1,5 +1,6 @@
 import React from 'react'
 import {GET_REQUEST, API_ROOT, createHeaders} from '../constants/index'
+import {ActionCableConsumer} from '@thrash-industries/react-actioncable-provider'
 
 class AttendeeShowPage extends React.Component{
 
@@ -33,6 +34,22 @@ class AttendeeShowPage extends React.Component{
            )})
     }
 
+    handlePlayed = response => {
+        console.log('hit')
+        const {playlist_addition} = response
+        const newAdds = []
+        console.log('hit')
+        this.state.additions.forEach(add => {
+            if (add.id === playlist_addition.id) {
+                add.played = true 
+                newAdds.push(add)
+            } else {
+                newAdds.push(add)
+            }
+        })
+        this.setState({additions: newAdds})
+    }
+
     componentDidMount(){
 
         fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, GET_REQUEST())
@@ -46,6 +63,10 @@ class AttendeeShowPage extends React.Component{
             <h1>Available Songs</h1>
             <h3>Cost per Request: ${this.state.price}</h3>
             <ul className="list-group">
+            <ActionCableConsumer 
+                channel={{channel: 'PlaylistAdditionsChannel'}}
+                onReceived={this.handlePlayed}
+            />
             {this.renderSongs()}
             </ul>
             </div>
