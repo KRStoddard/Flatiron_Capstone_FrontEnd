@@ -16,7 +16,7 @@ class AttendeeHomepage extends React.Component{
 
     renderShows = () => {
         return this.state.shows.map(show => {
-            return <Link key={show.id} to={`/attendee/show/${show.id}`}>{show.band.name} playing at {show.venue_name} on {show.date}</Link>
+            return <li className="list-group-item"><Link key={show.id} to={`/attendee/show/${show.id}`}>{show.band.name} playing at {show.venue_name} on {show.date}</Link></li>
         })
     }
 
@@ -24,8 +24,12 @@ class AttendeeHomepage extends React.Component{
 
         return(
             <div>
+                <div className="playlist-div">
                 <h1>Find A Show!</h1>
+                <ul className="list-group">
                 {this.renderShows()}
+                </ul>
+                </div>
             </div>
         )
     }

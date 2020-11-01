@@ -21,7 +21,7 @@ class AddSong extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className="playlist-div new-form">
                 <h2>Add Song</h2>
             <form onSubmit={this.handleSubmit}>
                 <input className="form-control" name="name" placeholder="Song Title"/>

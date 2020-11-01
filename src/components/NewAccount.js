@@ -31,7 +31,7 @@ class NewAccount extends React.Component{
     bandForm = () => {
         return(
             <Fragment>
-                <form onSubmit={this.bandSubmit}>
+                <form className="new-form" onSubmit={this.bandSubmit}>
                     <div className="form-row">
                         <div className="col-md-6 mb-3">
                             <input name="name" type="text" className="form-control" id="validationDefault01" placeholder="Band Name" required />
@@ -41,13 +41,17 @@ class NewAccount extends React.Component{
                         </div>
                         <div className="col-md-6 mb-3">
                             <input name="email" type="email" className="form-control" id="validationDefault02" placeholder="Email" required/>
+                            
+                        </div>
+                        <div className="col-md-6 mb-3">
+                        <input name="password" type="password" className="form-control" placeholder="password" />
                         </div>
                     </div>
-                    <div className="form-row">
+                    {/* <div className="form-row">
                         <div className="col-md-3 mb-3">
-                            <input name="password" type="password" className="form-control" placeholder="password" />
+                            
                         </div>
-                    </div>
+                    </div> */}
                     <button className="btn btn-primary" type="submit">Submit form</button>
                 </form>
             </Fragment>
@@ -58,7 +62,8 @@ class NewAccount extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className="playlist-div">
+                <h1>Create An Account</h1>
             {/* <div className="input-group mb-2 mr-sm-2">
                 <select onChange={this.handleSelect} className="custom-select" id="validationDefault04" required>
                     <option selected disabled value="">Choose...</option>

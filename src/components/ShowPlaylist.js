@@ -30,10 +30,16 @@ class ShowPlaylist extends React.Component{
         return this.state.playlist.playlist_additions.map(addition => 
         {return (
             <div>
-           <p>{`${addition.song.name}, ${addition.song.artist}, ${addition.song.album}, ${addition.song.release_year}`}</p>
-           <button onClick={() => this.removeSong(addition.song.id)}>Remove Song</button>
+           <li className="list-group-item">{`${addition.song.name}, ${addition.song.artist}, ${addition.song.album}, ${addition.song.release_year}`}<br></br><br></br>
+           <Link onClick={() => this.removeSong(addition.song.id)}>Remove Song</Link>
+           </li>
+           
            </div>
            )})
+    }
+
+    handleToNewSong = () => {
+        this.props.history.push(`/playlists/${this.state.playlist.id}/AddSong`)
     }
 
     componentDidMount(){
@@ -50,13 +56,17 @@ class ShowPlaylist extends React.Component{
 
     render(){
         return(
-            <div className="show-playlist">
+            <div>
             <Navbar props={this.props}/>
+            <div className="playlist-div">
             <h1>{this.state.playlist.name}</h1>
-            <Link to={`/playlists/${this.state.playlist.id}/AddSong`}>Add Song</Link>
+            <button onClick={this.handleToNewSong} className="btn">Add Song</button>
+            <ul className="list-group">
             {this.state.playlist.playlist_additions ?
             this.renderSongs()
         : null}
+        </ul>
+        </div>
             </div>
         )
     }

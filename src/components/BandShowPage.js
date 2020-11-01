@@ -30,17 +30,17 @@ class BandShowPage extends React.Component{
         const adds = this.state.additions.filter(add => add.played !== true)
         return adds.map(add => 
         {return (
-            <div className="listsongs">
-           <p>{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}</p>
-           <button className="btn" onClick={() => this.removeSong(add.song.id)}>Mark as Played</button>
-           </div>
+            // <div className="listsongs">
+           <li className="list-group-item">{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}</li>
+        //    {/* <button className="btn" onClick={() => this.removeSong(add.song.id)}>Mark as Played</button> */}
+        //    </div>
            )})
     }
 
     renderRequests = () => {
          return this.state.requests.map(request => {
              <div className="listsongs">
-             return <p>{request.song.name}, {request.song.artist}</p>
+             return <li className="list-group-item">{request.song.name}, {request.song.artist}</li>
              </div>
          })
     }
@@ -96,7 +96,9 @@ class BandShowPage extends React.Component{
                 <div className="band-reqs">
                     <h2>Requests</h2>
                     <button className="btn" onClick={this.endShow}>End Requests</button>
+                    <ul className="list-group">
                     {this.renderRequests()}
+                    </ul>
                     <ActionCableConsumer 
                         channel={{channel: 'RequestsChannel'}}
                         onReceived={this.handleRequests}
@@ -105,7 +107,9 @@ class BandShowPage extends React.Component{
                 <div className="band-list">
                     <h2>Playlist</h2>
                     <h3>{this.state.playlist.name}</h3>
+                    <ul className="list-group">
                         {this.renderSongs()}
+                        </ul>
                 </div>
                 
             </div>

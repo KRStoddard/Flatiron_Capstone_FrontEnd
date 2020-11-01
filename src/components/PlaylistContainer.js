@@ -48,10 +48,15 @@ class PlaylistContainer extends React.Component{
         return(
             <div className="playlist-cont">
             <Navbar props={this.props} />
+            <div className="playlist-div">
+            <h2>Your Playlists</h2>
+            <ul className="list-group">
             {this.state.playlists.length > 0 ?
             this.renderPlaylists()
             :
             this.noPlaylists()}
+            </ul>
+            </div>
             </div>
         )
     }

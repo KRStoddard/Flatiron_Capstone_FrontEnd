@@ -26,8 +26,9 @@ class AttendeeShowPage extends React.Component{
         return adds.map(add => 
         {return (
             <div>
-           <p>{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}</p>
-           <button onClick={() => this.requestSong(add.song.id)}>Request Song</button>
+           <li className="list-group-item action-item">{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}<br></br><br></br>
+           <a onClick={() => this.requestSong(add.song.id)}>Request Song</a>
+           </li>
            </div>
            )})
     }
@@ -41,10 +42,12 @@ class AttendeeShowPage extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className="playlist-div">
             <h1>Available Songs</h1>
             <h3>Cost per Request: ${this.state.price}</h3>
+            <ul className="list-group">
             {this.renderSongs()}
+            </ul>
             </div>
 
 
