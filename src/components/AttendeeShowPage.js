@@ -1,6 +1,7 @@
 import React from 'react'
 import {GET_REQUEST, API_ROOT, createHeaders} from '../constants/index'
 import {ActionCableConsumer} from '@thrash-industries/react-actioncable-provider'
+import {Link} from 'react-router-dom'
 
 class AttendeeShowPage extends React.Component{
 
@@ -29,7 +30,7 @@ class AttendeeShowPage extends React.Component{
         {return (
             <div>
            <li className="list-group-item action-item">{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}<br></br><br></br>
-           <a onClick={() => this.requestSong(add.song.id)}>Request Song</a>
+           <Link onClick={() => this.requestSong(add.song.id)}>Request Song</Link>
            </li>
            </div>
            )})
@@ -78,7 +79,10 @@ class AttendeeShowPage extends React.Component{
                     onReceived={this.handlePlayed}
                 />
             {this.state.closed === true ? 
+            <div>
                 <h2>Requests for this show have ended. Thank you for attending!</h2>
+                <button className="btn" onClick={() => this.props.history.push('/')}>Find Another Show</button>
+            </div>
             :
                 [...this.renderSongs()]
             }

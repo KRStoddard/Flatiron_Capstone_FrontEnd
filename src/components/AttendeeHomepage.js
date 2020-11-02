@@ -26,9 +26,17 @@ class AttendeeHomepage extends React.Component{
             <div>
                 <div className="playlist-div">
                 <h1>Find A Show!</h1>
-                <ul className="list-group">
-                {this.renderShows()}
-                </ul>
+                {this.state.shows.length > 0 ?
+                    <ul className="list-group">
+                    {this.renderShows()}
+                    </ul>
+                :
+                    <div>
+                    <h2>Sorry, There Are No Shows Using Jukebox Live at This Time</h2>
+                    <button className="btn" onClick={() => this.props.history.push('/')}>Go Back</button>
+                    </div>
+                }   
+                
                 </div>
             </div>
         )

@@ -50,6 +50,7 @@ class PlaylistContainer extends React.Component{
             <Navbar props={this.props} />
             <div className="playlist-div">
             <h2>Your Playlists</h2>
+            <button className="btn" onClick={() => {this.props.history.push(`/NewPlaylist`)}}>Create a New Playlist</button>
             <ul className="list-group">
             {this.state.playlists.length > 0 ?
             this.renderPlaylists()

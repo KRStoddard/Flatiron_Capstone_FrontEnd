@@ -11,6 +11,7 @@ import BandShowPage from './components/BandShowPage'
 import Homepage from './components/Homepage'
 import AttendeeHomepage from './components/AttendeeHomepage'
 import AttendeeShowPage from './components/AttendeeShowPage'
+import NewPlaylist from './components/NewPlaylist';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/bandpage/:id' component={BandPage} />
         <Route path='/bandshowpage/:id' component={BandShowPage} />
         <Route path='/NewShow' component={NewShow} />
+        <Route path='/NewPlaylist' component={NewPlaylist} />
         <Route path='/playlists/:id/AddSong' component={AddSong} />
         <Route path='/playlists/:id' component={ShowPlaylist} />
         <Route exact path='/playlists' component={PlaylistContainer} />

@@ -11,7 +11,8 @@ class BandShowPage extends React.Component{
         playlist: {},
         additions: [],
         requests: [],
-        closed: false
+        closed: false,
+        id: ""
     }
 
     removeSong = songId => {
@@ -22,6 +23,11 @@ class BandShowPage extends React.Component{
             body: JSON.stringify(newAddition)
         }
         fetch(`${API_ROOT}/playlist_additions/${songId}`, reqObj)
+
+        const requests = this.state.requests.filter(req => req.song.id !== songId)
+        const additions = this.state.additions.filter(add => add.song.id !== songId)
+
+        this.setState({requests, additions})
     }
 
     renderSongs = () => {
@@ -30,7 +36,7 @@ class BandShowPage extends React.Component{
         {return (
             // <div className="listsongs">
            <li className="list-group-item">{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}<br></br><br></br>
-        //    <Link onClick={() => this.removeSong(add.song.id)}>Mark as Played</Link>
+           <Link onClick={() => this.removeSong(add.song.id)}>Mark as Played</Link>
         </li>
         //    </div>
            )})
@@ -38,8 +44,10 @@ class BandShowPage extends React.Component{
 
     renderRequests = () => {
          return this.state.requests.map(request => {
-             <div className="listsongs">
-             return <li className="list-group-item">{request.song.name}, {request.song.artist}</li>
+            return <div className="listsongs">
+              <li className="list-group-item">{request.song.name}, {request.song.artist}<br></br><br></br>
+              <Link onClick={() => this.removeSong(request.song.id)}>Mark as Played</Link>
+              </li>
              </div>
          })
     }
@@ -62,7 +70,7 @@ class BandShowPage extends React.Component{
             body: JSON.stringify({id})
         }
         fetch(`${API_ROOT}/${id}`, reqObj)
-        this.props.history.push(`/bandpage`)
+        this.props.history.push(`/bandpage/${id}`)
     }
 
     handleRequests = response => {
@@ -95,6 +103,10 @@ class BandShowPage extends React.Component{
         fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, GET_REQUEST())
         .then(resp => resp.json())
         .then(show => this.setState({playlist: show.playlist, additions: show.playlist_additions, requests: show.requests, closed: show.complete}))
+
+        fetch(`${API_ROOT}/auto_login`, GET_REQUEST())
+        .then(resp => resp.json())
+        .then(band => this.setState({id: band.id}))
     }
 
     endReq = () => {
@@ -104,6 +116,7 @@ class BandShowPage extends React.Component{
             body: JSON.stringify({show_id: this.props.match.params.id})
         }
         fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, reqObj)
+        this.setState({closed: true})
     }
 
     render(){
