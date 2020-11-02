@@ -7,7 +7,8 @@ class AttendeeShowPage extends React.Component{
     state = {
         playlist: {},
         additions: [],
-        price: ""
+        price: "",
+        closed: false
     }
 
     requestSong = songId => {
@@ -35,10 +36,8 @@ class AttendeeShowPage extends React.Component{
     }
 
     handlePlayed = response => {
-        console.log('hit')
         const {playlist_addition} = response
         const newAdds = []
-        console.log('hit')
         this.state.additions.forEach(add => {
             if (add.id === playlist_addition.id) {
                 add.played = true 
@@ -50,11 +49,18 @@ class AttendeeShowPage extends React.Component{
         this.setState({additions: newAdds})
     }
 
+    endShow = () => {
+        console.log('hit')
+        this.setState({closed: true})
+    }
+
+
+
     componentDidMount(){
 
         fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, GET_REQUEST())
         .then(resp => resp.json())
-        .then(show => this.setState({playlist: show.playlist, additions: show.playlist_additions, price: show.price_per_request}))
+        .then(show => this.setState({playlist: show.playlist, additions: show.playlist_additions, price: show.price_per_request, closed: show.complete}))
     }
 
     render(){
@@ -64,10 +70,18 @@ class AttendeeShowPage extends React.Component{
             <h3>Cost per Request: ${this.state.price}</h3>
             <ul className="list-group">
             <ActionCableConsumer 
-                channel={{channel: 'PlaylistAdditionsChannel'}}
-                onReceived={this.handlePlayed}
+                channel={{channel: 'ShowsChannel'}}
+                onReceived={this.endShow}
             />
-            {this.renderSongs()}
+            <ActionCableConsumer 
+                    channel={{channel: 'PlaylistAdditionsChannel'}}
+                    onReceived={this.handlePlayed}
+                />
+            {this.state.closed === true ? 
+                <h2>Requests for this show have ended. Thank you for attending!</h2>
+            :
+                [...this.renderSongs()]
+            }
             </ul>
             </div>
 

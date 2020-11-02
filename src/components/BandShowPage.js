@@ -10,7 +10,8 @@ class BandShowPage extends React.Component{
     state = {
         playlist: {},
         additions: [],
-        requests: []
+        requests: [],
+        closed: false
     }
 
     removeSong = songId => {
@@ -21,10 +22,6 @@ class BandShowPage extends React.Component{
             body: JSON.stringify(newAddition)
         }
         fetch(`${API_ROOT}/playlist_additions/${songId}`, reqObj)
-        // .then(resp => resp.json())
-        // .then(addition => {
-        //     console.log(addition)
-        // })
     }
 
     renderSongs = () => {
@@ -45,6 +42,27 @@ class BandShowPage extends React.Component{
              return <li className="list-group-item">{request.song.name}, {request.song.artist}</li>
              </div>
          })
+    }
+
+    renderButton = () => {
+        if (this.state.closed !== true) {
+            return <button className="btn" onClick={this.endReq}>End Requests</button>
+        } else {
+            return <button className="btn" onClick={this.endShow}>End Show</button>
+        }
+    }
+
+    endShow = () => {
+
+        const id = this.props.match.params.id
+
+        const reqObj = {
+            method: 'DELETE',
+            headers: createHeaders(),
+            body: JSON.stringify({id})
+        }
+        fetch(`${API_ROOT}/${id}`, reqObj)
+        this.props.history.push(`/bandpage`)
     }
 
     handleRequests = response => {
@@ -76,19 +94,17 @@ class BandShowPage extends React.Component{
 
         fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, GET_REQUEST())
         .then(resp => resp.json())
-        .then(show => this.setState({playlist: show.playlist, additions: show.playlist_additions, requests: show.requests}))
+        .then(show => this.setState({playlist: show.playlist, additions: show.playlist_additions, requests: show.requests, closed: show.complete}))
     }
 
-    // endShow = () => {
-    //     const reqObj = {
-    //         method: 'PATCH',
-    //         headers: createHeaders(),
-    //         body: JSON.stringify({show_id: this.props.match.params.id})
-    //     }
-    //     fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, reqObj)
-    //     .then(resp => resp.json())
-    //     .then(show => console.log(show))
-    // }
+    endReq = () => {
+        const reqObj = {
+            method: 'PATCH',
+            headers: createHeaders(),
+            body: JSON.stringify({show_id: this.props.match.params.id})
+        }
+        fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, reqObj)
+    }
 
     render(){
         return(
@@ -97,7 +113,7 @@ class BandShowPage extends React.Component{
                 <div className="show-playlist">
                 <div className="band-reqs">
                     <h2>Requests</h2>
-                    <button className="btn" onClick={this.endShow}>End Requests</button>
+                    {this.renderButton()}
                     <ul className="list-group">
                     {this.renderRequests()}
                     </ul>
