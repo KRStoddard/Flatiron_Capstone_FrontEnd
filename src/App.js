@@ -11,7 +11,8 @@ import BandShowPage from './components/BandShowPage'
 import Homepage from './components/Homepage'
 import AttendeeHomepage from './components/AttendeeHomepage'
 import AttendeeShowPage from './components/AttendeeShowPage'
-import NewPlaylist from './components/NewPlaylist';
+import NewPlaylist from './components/NewPlaylist'
+import RequestSong from './components/RequestSong'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route exact path='/playlists' component={PlaylistContainer} />
         <Route path='/attendee/show/:id' component={AttendeeShowPage} />
         <Route path='/attendeepage' component={AttendeeHomepage} />
+        <Route path='/requestsong/:id' component={RequestSong} />
         <Route path='/login' component={Login}/>
         <Route path='/' component={Homepage} />
       </Switch>

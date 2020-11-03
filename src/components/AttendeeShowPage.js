@@ -12,17 +12,22 @@ class AttendeeShowPage extends React.Component{
         closed: false
     }
 
-    requestSong = songId => {
-        const newReq = {song_id: songId, playlist_id: this.state.playlist.id, show_id: this.props.match.params.id}
-        const reqObj = {
-            method: 'POST',
-            headers: createHeaders(),
-            body: JSON.stringify({request: newReq})
-        }
-        fetch(`${API_ROOT}/requests`, reqObj)
-        // .then(resp => resp.json())
-        // .then(request => console.log(request))
-    }
+    // requestSong = songId => {
+    //     const newReq = {song_id: songId, playlist_id: this.state.playlist.id, show_id: this.props.match.params.id}
+    //     console.log(newReq)
+    //     this.props.history.push({
+    //         pathname: '/requestsong',
+    //         state: newReq
+    //       })
+    //     const reqObj = {
+    //         method: 'POST',
+    //         headers: createHeaders(),
+    //         body: JSON.stringify({request: newReq})
+    //     }
+    //     fetch(`${API_ROOT}/requests`, reqObj)
+    //     .then(resp => resp.json())
+    //     .then(request => console.log(request))
+    // }
 
     renderSongs = () => {
         const adds = this.state.additions.filter(add => add.played !== true)
@@ -30,7 +35,8 @@ class AttendeeShowPage extends React.Component{
         {return (
             <div>
            <li className="list-group-item action-item">{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}<br></br><br></br>
-           <Link onClick={() => this.requestSong(add.song.id)}>Request Song</Link>
+           {/* <Link onClick={() => this.requestSong(add.song.id)}>Request Song</Link> */}
+           <Link to={`/requestsong/${this.props.match.params.id}&${add.song.id}`}>Request Song</Link>
            </li>
            </div>
            )})
