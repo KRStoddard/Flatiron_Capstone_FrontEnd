@@ -21,8 +21,6 @@ class Navbar extends React.Component{
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
                         <Link className="nav-link" to={`/playlists/`}>Playlists</Link>
-                        <a className="nav-link" href="#">Shows</a>
-                        <a className="nav-link" href="#">Stats</a>
                         <Link className="nav-link" to="/" onClick={() => localStorage.removeItem('bandToken')}>Logout</Link>
                     </div>
                  </div>

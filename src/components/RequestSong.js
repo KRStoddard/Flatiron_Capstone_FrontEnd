@@ -18,7 +18,7 @@ class RequestSong extends React.Component{
         }
         fetch(`${API_ROOT}/requests`, reqObj)
         .then(resp => resp.json())
-        .then(() => this.props.history.push(`/`))
+        // .then(() => this.props.history.push(`/`))
     }
 
     componentDidMount(){
@@ -38,7 +38,8 @@ class RequestSong extends React.Component{
             amount={this.state.show.price_per_request}
                 onSuccess={(details) => {
                     alert("Transaction completed by " + details.payer.name.given_name)
-                    this.requestSong()}}
+                    this.requestSong()
+                    this.props.history.push(`/`)}}
                 options={{
                     clientId: 'AalArEMDD6U4EoDIgfKcJ-TwhwaNg_YKG1pX225Veyda6QQrYZ3i3vem80-YWe-WcDXssyU9s3iyNKig'
                       }} 
