@@ -68,6 +68,7 @@ code {
   background-color: rgb(110, 44, 69);
   border-color: white;
   margin-bottom: .7%;
+  color: white;
 }
 
 .btn:hover,
@@ -229,47 +230,6 @@ input[type="color"]:focus,
   color: white;
 }
 
-
-
-
-/* .bg h1 {
-  font-family: 'Faster One', cursive;
-  font-size: 3.8rem;
-  background: -webkit-linear-gradient( white, rgb(110, 44, 69), rgb(66, 13, 22));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  position: relative;
-  text-align: center;
-} */
-/* .bg h1 {
-  font-family: 'Faster One', cursive;
-  font-size: 300%;
-  background: -webkit-linear-gradient( white, rgb(110, 44, 69), rgb(66, 13, 22));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  position: absolute;
+.spl {
+  margin: 1%;
 }
-
-.bg h2 {
-  position: absolute;
-  margin-top: 10%;
-}
-
-.bg {
-  color: white;
-  height: 30rem;
-  margin-top: 30%;
-  margin-left: 15%;
-}
-
-
-.login-div {
-}
-
-
-
-.navbar {
-  background-image: linear-gradient(to right, rgb(110, 44, 69), rgb(115, 106, 106), rgb(105, 12, 15));
-} */
-
-

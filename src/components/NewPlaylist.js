@@ -9,8 +9,9 @@ class NewPlaylist extends React.Component{
         const reqObj = {
             method: 'POST',
             headers: createHeaders(),
-            body: JSON.stringify({newList})
+            body: JSON.stringify(newList)
         }
+        console.log(reqObj)
 
         fetch(`${API_ROOT}/playlists`, reqObj)
         .then(resp => resp.json())

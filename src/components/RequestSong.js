@@ -31,15 +31,20 @@ class RequestSong extends React.Component{
     render(){
         
         return(
-            <div>
+            <div className="new-form">
             <h2>Payment Confirmation</h2>
-            {/* <h3>The cost of this transaction will be {this.state.show.price_per_request}</h3> */}
+            <h3>The cost of this transaction will be ${this.state.show.price_per_request}</h3>
+            {this.state.error ?
+                <p>We're sorry, there was an error with your request.</p>
+            :
+            null}
             <PayPalButton 
             amount={this.state.show.price_per_request}
                 onSuccess={(details) => {
-                    alert("Song successfully requested " + details.payer.name.given_name)
                     this.requestSong()
+                    alert("Thank you, " + details.payer.name.given_name + ". Your song has been successfully requested.")
                     this.props.history.push(`/`)}}
+                onError={() => this.setState({error: true})}
                 options={{
                     clientId: process.env.REACT_APP_CLIENT_ID
                       }} 

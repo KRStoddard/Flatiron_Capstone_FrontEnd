@@ -69,7 +69,7 @@ class BandShowPage extends React.Component{
             headers: createHeaders(),
             body: JSON.stringify({id})
         }
-        fetch(`${API_ROOT}/${id}`, reqObj)
+        fetch(`${API_ROOT}/shows/${id}`, reqObj)
         this.props.history.push(`/bandpage/${id}`)
     }
 

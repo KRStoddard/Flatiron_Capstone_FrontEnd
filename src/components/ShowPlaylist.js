@@ -42,6 +42,16 @@ class ShowPlaylist extends React.Component{
         this.props.history.push(`/playlists/${this.state.playlist.id}/AddSong`)
     }
 
+    deletePlaylist = () => {
+        const reqObj = {
+            method: 'DELETE',
+            headers: createHeaders(),
+            body: JSON.stringify({id: this.state.playlist.id})
+        }
+        fetch(`${API_ROOT}/playlists/${this.state.playlist.id}`, reqObj)
+        .then(() => this.props.history.push(`/playlists`))
+    }
+
     componentDidMount(){
 
         const reqObj = {
@@ -60,7 +70,8 @@ class ShowPlaylist extends React.Component{
             <Navbar props={this.props}/>
             <div className="playlist-div">
             <h1>{this.state.playlist.name}</h1>
-            <button onClick={this.handleToNewSong} className="btn">Add Song</button>
+            <button onClick={this.handleToNewSong} className="btn spl">Add Song</button>
+            <button onClick={this.deletePlaylist} className="btn spl">Delete Playlist</button>
             <ul className="list-group">
             {this.state.playlist.playlist_additions ?
             this.renderSongs()

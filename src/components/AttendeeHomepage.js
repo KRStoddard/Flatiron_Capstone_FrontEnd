@@ -1,6 +1,7 @@
 import React from 'react'
 import {API_ROOT, GET_REQUEST} from '../constants/index'
 import {Link} from 'react-router-dom'
+import Navbar from './Navbar'
 
 class AttendeeHomepage extends React.Component{
 
@@ -24,6 +25,7 @@ class AttendeeHomepage extends React.Component{
 
         return(
             <div>
+                <Navbar />
                 <div className="playlist-div">
                 <h1>Find A Show!</h1>
                 {this.state.shows.length > 0 ?

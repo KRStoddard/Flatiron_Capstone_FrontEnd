@@ -1,7 +1,8 @@
 import React from 'react'
-import {GET_REQUEST, API_ROOT, createHeaders} from '../constants/index'
+import {GET_REQUEST, API_ROOT} from '../constants/index'
 import {ActionCableConsumer} from '@thrash-industries/react-actioncable-provider'
 import {Link} from 'react-router-dom'
+import Navbar from './Navbar'
 
 class AttendeeShowPage extends React.Component{
 
@@ -72,28 +73,31 @@ class AttendeeShowPage extends React.Component{
 
     render(){
         return(
-            <div className="playlist-div">
-            <h1>Available Songs</h1>
-            <h3>Cost per Request: ${this.state.price}</h3>
-            <ul className="list-group">
-            <ActionCableConsumer 
-                channel={{channel: 'ShowsChannel'}}
-                onReceived={this.endShow}
-            />
-            <ActionCableConsumer 
-                    channel={{channel: 'PlaylistAdditionsChannel'}}
-                    onReceived={this.handlePlayed}
-                />
-            {this.state.closed === true ? 
-            <div>
-                <h2>Requests for this show have ended. Thank you for attending!</h2>
-                <button className="btn" onClick={() => this.props.history.push('/')}>Find Another Show</button>
-            </div>
-            :
-                [...this.renderSongs()]
-            }
-            </ul>
-            </div>
+            <>
+                <Navbar />
+                <div className="playlist-div">
+                    <h1>Available Songs</h1>
+                    <h3>Cost per Request: ${this.state.price}</h3>
+                    <ul className="list-group">
+                        <ActionCableConsumer 
+                            channel={{channel: 'ShowsChannel'}}
+                            onReceived={this.endShow}
+                        />
+                        <ActionCableConsumer 
+                                channel={{channel: 'PlaylistAdditionsChannel'}}
+                                onReceived={this.handlePlayed}
+                            />
+                        {this.state.closed === true ? 
+                        <div>
+                            <h2>Requests for this show have ended. Thank you for attending!</h2>
+                            <button className="btn" onClick={() => this.props.history.push('/')}>Find Another Show</button>
+                        </div>
+                        :
+                            [...this.renderSongs()]
+                        }
+                    </ul>
+                </div>
+            </>
 
 
         )
