@@ -28,7 +28,6 @@ class BandPage extends React.Component{
     }
 
     render(){
-        console.log(this.currentShow())
         return(
             <>
             <Navbar props={this.props} />

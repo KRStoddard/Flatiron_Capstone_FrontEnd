@@ -17,7 +17,7 @@ class RequestSong extends React.Component{
             body: JSON.stringify({request: newReq})
         }
         fetch(`${API_ROOT}/requests`, reqObj)
-        .then(resp => resp.json())
+        // .then(resp => resp.json())
         // .then(() => this.props.history.push(`/`))
     }
 
@@ -37,11 +37,11 @@ class RequestSong extends React.Component{
             <PayPalButton 
             amount={this.state.show.price_per_request}
                 onSuccess={(details) => {
-                    alert("Transaction completed by " + details.payer.name.given_name)
+                    alert("Song successfully requested " + details.payer.name.given_name)
                     this.requestSong()
                     this.props.history.push(`/`)}}
                 options={{
-                    clientId: 'AalArEMDD6U4EoDIgfKcJ-TwhwaNg_YKG1pX225Veyda6QQrYZ3i3vem80-YWe-WcDXssyU9s3iyNKig'
+                    clientId: process.env.REACT_APP_CLIENT_ID
                       }} 
             />
             </div>
