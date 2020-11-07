@@ -6,7 +6,8 @@ class NewShow extends React.Component{
 
     state = {
         playlists:["You have No Playlists"],
-        playlist_id: ""
+        playlist_id: "",
+        errors: []
     }
 
     renderPlaylists = () => {
@@ -42,7 +43,21 @@ class NewShow extends React.Component{
 
         fetch(`${API_ROOT}/shows`, reqObj)
         .then(resp => resp.json())
-        .then(show => this.props.history.push(`/bandshowpage/${show.id}`))
+        .then(show => {
+            console.log(show)
+            if (!show.errors) {
+                this.props.history.push(`/bandshowpage/${show.id}`)
+            } else {
+                this.setState({errors: show.errors})
+            }
+    
+    })
+    }
+
+    renderErrors = () => {
+        return this.state.errors.map(error => {
+            return <p className="error">{error}</p>
+        })
     }
 
     handleChange = e => {
@@ -56,6 +71,7 @@ class NewShow extends React.Component{
                 <Navbar props={this.props} />
                 <div className="new-form">
                 <h2>Start a New Show!</h2>
+                {this.renderErrors()}
             <form className="justify-content-center" onSubmit={this.handleSubmit}>
                 <input className="form-control" name="venue" placeholder="Venue Name"/>
                 <select onChange={this.handleChange} name="playlist" class="form-control" id="exampleFormControlSelect1">

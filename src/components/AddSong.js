@@ -10,14 +10,15 @@ class AddSong extends React.Component{
         page: 0,
         totalTracks: "",
         lastTrack: 0,
-        url: ""
+        url: "",
+        errors: []
     }
 
     handleSubmit = e => {
         e.preventDefault()
         const playlistId = this.props.match.params.id
-        const {name, artist, album, year} = e.target
-        const newAlbum = {name: name.value, artist: artist.value, album: album.value, release_year: year.value, playlist_id: playlistId}
+        const {name, artist, album} = e.target
+        const newAlbum = {name: name.value, artist: artist.value, album: album.value, playlist_id: playlistId}
         this.addSong(newAlbum)
     }
 
@@ -30,7 +31,18 @@ class AddSong extends React.Component{
 
         fetch(`${API_ROOT}/songs`, reqObj)
         .then(resp => resp.json())
-        .then(song => alert('Song Successfully Added!'))
+        .then(song => {
+            if (!song.errors) {
+                alert('Song Successfully Added!')
+            } else {
+                this.setState({errors: song.errors})
+            }
+        })
+    }
+    renderErrors = () => {
+        return this.state.errors.map(error => {
+            return <p className="error">{error}</p>
+        })
     }
 
     handleSearch = e => {  
@@ -106,14 +118,15 @@ class AddSong extends React.Component{
             <div className="playlist-div new-form">
                 <Link to={`/playlists/${this.props.match.params.id}`}><button className="btn">Return to Playlist</button></Link>
                 <h2>Add Song Manually</h2>
+                {this.renderErrors()}
             <form onSubmit={this.handleSubmit}>
                 <input className="form-control" name="name" placeholder="Song Title"/>
-                <input className="form-control" name="album" placeholder="Album"/>
                 <input className="form-control" name="artist" placeholder="Artist"/>
-                <input className="form-control" name="year" placeholder="Release Year"/>
+                <input className="form-control" name="album" placeholder="Album"/>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
                 <h2>Search for Song/Artist</h2>
+                {this.renderErrors()}
                 <form onSubmit={this.handleSearch}>
                     <input className="form-control" name="name" placeholder="Song Title"/>
                     <input className="form-control" name="artist" placeholder="Artist"/>

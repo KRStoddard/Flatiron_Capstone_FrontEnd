@@ -4,9 +4,9 @@ import {createHeaders, API_ROOT} from '../constants/index'
 
 class NewAccount extends React.Component{
 
-    // state = {
-    //     accountType: null,
-    // }
+    state = {
+        errors: []
+    }
 
     // handleSelect = e => {
     //     this.setState({accountType: e.target.value})
@@ -24,7 +24,18 @@ class NewAccount extends React.Component{
 
         fetch(`${API_ROOT}/bands`, reqObj)
         .then(resp => resp.json())
-        .then(band => this.props.history.push(`/bandpage/${band.band.id}`))
+        .then(band => {
+            if (!band.errors) {
+             this.props.history.push(`/bandpage/${band.band.id}`)
+            } else {
+                this.setState({errors: band.errors})
+            }})
+    }
+
+    renderErrors = () => {
+        return this.state.errors.map(error => {
+            return <p className="error">{error}</p>
+        })
     }
 
     
@@ -64,6 +75,7 @@ class NewAccount extends React.Component{
         return(
             <div className="playlist-div">
                 <h1>Create An Account</h1>
+                {this.renderErrors()}
             {/* <div className="input-group mb-2 mr-sm-2">
                 <select onChange={this.handleSelect} className="custom-select" id="validationDefault04" required>
                     <option selected disabled value="">Choose...</option>

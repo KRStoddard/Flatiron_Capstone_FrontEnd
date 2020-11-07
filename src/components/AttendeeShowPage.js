@@ -100,7 +100,7 @@ class AttendeeShowPage extends React.Component{
                             <button className="btn" onClick={() => this.props.history.push('/')}>Find Another Show</button>
                         </div>
                         :
-                            [...this.renderSongs()]
+                            this.renderSongs()
                         }
                     </ul>
                 </div>

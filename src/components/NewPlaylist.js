@@ -3,6 +3,10 @@ import {API_ROOT, createHeaders} from '../constants/index'
 
 class NewPlaylist extends React.Component{
 
+    state = {
+        errors: []
+    }
+
     handleSubmit = e => {
         e.preventDefault()
         const newList = {name: e.target.name.value}
@@ -11,17 +15,30 @@ class NewPlaylist extends React.Component{
             headers: createHeaders(),
             body: JSON.stringify(newList)
         }
-        console.log(reqObj)
 
         fetch(`${API_ROOT}/playlists`, reqObj)
         .then(resp => resp.json())
-        .then(playlist => this.props.history.push(`/playlists/${playlist.id}`))
+        .then(playlist => {
+            if (!playlist.errors) {
+            this.props.history.push(`/playlists/${playlist.id}`)
+            } else {
+                this.setState({errors: playlist.errors})
+            }
+        
+        })
+    }
+
+    renderErrors = () => {
+        return this.state.errors.map(error => {
+            return <p className="error">{error}</p>
+        })
     }
 
     render(){
         return(
             <div className="playlist-div new-form">
                 <h2>Create Playlist</h2>
+                {this.renderErrors()}
             <form onSubmit={this.handleSubmit}>
                 <input className="form-control" name="name" placeholder="Playlist Name" />
                 <button type="submit" class="btn btn-primary">Submit</button>

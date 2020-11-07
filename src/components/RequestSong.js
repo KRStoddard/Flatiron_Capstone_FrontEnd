@@ -28,18 +28,17 @@ class RequestSong extends React.Component{
         .then(show => this.setState({show: show, song: info[1]}))
     }
 
-    render(){
-        
-        return(
-            <div className="new-form">
-            <h2>Payment Confirmation</h2>
-            <h3>The cost of this transaction will be ${this.state.show.price_per_request}</h3>
-            {this.state.error ?
-                <p>We're sorry, there was an error with your request.</p>
-            :
-            null}
-            <PayPalButton 
-            amount={this.state.show.price_per_request}
+    renderPayment = () => {
+        return (
+            <>
+                <h2>Payment Confirmation</h2>
+                <h3>The cost of this transaction will be ${this.state.show.price_per_request}</h3>
+                {this.state.error ?
+                    <p>We're sorry, there was an error with your request.</p>
+                :
+                    null}
+                <PayPalButton 
+                amount={this.state.show.price_per_request}
                 onSuccess={(details) => {
                     this.requestSong()
                     alert("Thank you, " + details.payer.name.given_name + ". Your song has been successfully requested.")
@@ -48,7 +47,35 @@ class RequestSong extends React.Component{
                 options={{
                     clientId: process.env.REACT_APP_CLIENT_ID
                       }} 
-            />
+                />
+            </>
+        )
+    }
+
+    renderFree = () => {
+        return (
+        <>
+            <h2>Confirm Song Request</h2>
+            <button 
+                onClick={() => {
+                    this.requestSong()
+                    alert("Thank you, your song has been requested.")
+                    this.props.history.push(`/`)
+                }}
+                className="btn">Confirm
+            </button>
+        </>
+        )
+    }
+
+    render(){
+        
+        return(
+            <div className="new-form">
+            {this.state.show.price_per_request > 0 ?
+                this.renderPayment()
+            :
+                this.renderFree()}
             </div>
         )
     }
