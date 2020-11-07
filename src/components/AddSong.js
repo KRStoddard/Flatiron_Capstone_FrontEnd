@@ -6,9 +6,10 @@ class AddSong extends React.Component{
 
     state = {
         tracks: [],
-        page: 1,
+        page: 0,
         totalTracks: "",
-        lastTrack: 99
+        lastTrack: 0,
+        url: ""
     }
 
     handleSubmit = e => {
@@ -31,9 +32,7 @@ class AddSong extends React.Component{
         .then(song => alert('Song Successfully Added!'))
     }
 
-    handleSearch = e => {
-        const api_url = `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?format=json&callback=callback`
-        const pages = `&page_size=99&page=1&apikey=${process.env.REACT_APP_API_KEY}`
+    handleSearch = e => {  
         e.preventDefault()
         let name
         let artist
@@ -52,17 +51,31 @@ class AddSong extends React.Component{
         } else if (artist && !name) {
             url = `${artist}`
         }
-        fetch(`${api_url}${url}${pages}`)
-        .then(resp => resp.json())
-        .then(data => {
-            this.setState({totalTracks: data.message.header.available, tracks: data.message.body.track_list})
+
+        this.executeSearch(url)
+        e.target.reset()
+    }
+
+        executeSearch = url => {
+            const page = this.state.page += 1
+            const api_url = `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?format=json&callback=callback`
+            const pages = `&page_size=99&page=${page}&apikey=${process.env.REACT_APP_API_KEY}`
+            let lastTrack
+            if (this.state.totalTracks > (this.state.lastTrack + 99)) {
+                lastTrack = this.state.lastTrack + 99
+            } else {
+                lastTrack = this.state.totalTracks
+            }
+            fetch(`${api_url}${url}${pages}`)
+            .then(resp => resp.json())
+            .then(data => {
+            this.setState({totalTracks: data.message.header.available, tracks: data.message.body.track_list, url: url, lastTrack, page})
         })
-        .catch(err => {
+            .catch(err => {
 	        console.error(err);
             })  
-
-            e.target.reset()
         }
+        
 
         addFromList = (e, track) => {
             console.log(e.target.parentNode.className = 'list-group-item disabled')
@@ -73,10 +86,17 @@ class AddSong extends React.Component{
         }
 
         renderTracks = () => {
-            return this.state.tracks.map(track => {
-                return <li className="list-group-item"><Link key={track.track.track_id} onClick={e => this.addFromList(e, track.track)}>{track.track.track_name}, {track.track.artist_name}, {track.track.album_name}</Link></li>
+            if (this.state.tracks.length > 0){
+            const tracks = this.state.tracks.sort(function(a,b){
+                if (a.track.track_name < b.track.track_name) {return -1}
+                if (a.track.track_name > b.track.track_name) {return 1}
+                return 0
             })
+            return tracks.map(track => {
+                return <li className="list-group-item"><Link key={track.track.track_id} onClick={e => this.addFromList(e, track.track)}>{track.track.track_name}, {track.track.artist_name}, {track.track.album_name}</Link></li>
+            })}
         }
+
 
 
     render(){
@@ -99,7 +119,7 @@ class AddSong extends React.Component{
             <ul className="list-group">
                 {this.renderTracks()}
                 {this.state.lastTrack < this.state.totalTracks ? 
-                <Link>See More Results</Link>
+                <Link className='more-results' onClick={() => this.executeSearch(this.state.url)}>See More Results</Link>
                 : 
                 null}
             </ul>
