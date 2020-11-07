@@ -6,7 +6,8 @@ import Navbar from './Navbar'
 class AttendeeHomepage extends React.Component{
 
     state = {
-        shows: []
+        shows: [],
+        search: ""
     }
 
     componentDidMount(){
@@ -16,10 +17,19 @@ class AttendeeHomepage extends React.Component{
     }
 
     renderShows = () => {
-        return this.state.shows.map(show => {
+        let shows = this.state.shows
+            if (this.state.search.length > 0){
+                let search = this.state.search.toLowerCase().split(' ')
+                search.forEach(search => {
+                    search = search.toLowerCase()
+                    shows = shows.filter(show => show.band.name.split(' ').join('').toLowerCase().includes(search) || show.venue_name.split(' ').join('').toLowerCase().includes(search))
+                })
+            }
+        return shows.map(show => {
             return <li className="list-group-item"><Link key={show.id} to={`/attendee/show/${show.id}`}>{show.band.name} playing at {show.venue_name} on {show.date}</Link></li>
         })
     }
+
 
     render(){
 
@@ -28,6 +38,9 @@ class AttendeeHomepage extends React.Component{
                 <Navbar />
                 <div className="playlist-div">
                 <h1>Find A Show!</h1>
+                <form onSubmit={e => e.preventDefault()} className="searchform">
+                    <input onChange={e => this.setState({search: e.target.value})} className="searchbar" type="text" name="search" placeholder="Search by Band or Venue"/>
+                 </form>
                 {this.state.shows.length > 0 ?
                     <ul className="list-group">
                     {this.renderShows()}

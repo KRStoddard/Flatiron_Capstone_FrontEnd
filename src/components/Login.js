@@ -24,8 +24,8 @@ class Login extends React.Component{
 
     render(){
         return(
-            <div className="container text-center">
-                <h1 className="loginhead">LIVEARCHIVE</h1>
+            <div className="container text-center new-form">
+                <h1 className="loginhead">JUKEBOX LIVE</h1>
                     <form onSubmit = {this.handleLogin}className="form-inline justify-content-center loginform">
                         <div className="input-group mb-2 mr-sm-2">
                             <div className="input-group-prepend">
