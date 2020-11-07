@@ -33,7 +33,7 @@ class AddSong extends React.Component{
 
     handleSearch = e => {
         const api_url = `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?format=json&callback=callback`
-        const pages = `&page_size=99&page=1&apikey=c93501d1c75ee64c084b92edf050ae65`
+        const pages = `&page_size=99&page=1&apikey=${process.env.REACT_APP_API_KEY}`
         e.preventDefault()
         let name
         let artist
