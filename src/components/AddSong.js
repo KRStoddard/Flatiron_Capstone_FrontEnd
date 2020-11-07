@@ -1,6 +1,7 @@
 import React from 'react'
 import {API_ROOT, createHeaders} from '../constants/index'
 import {Link} from 'react-router-dom'
+import Navbar from './Navbar'
 
 class AddSong extends React.Component{
 
@@ -78,7 +79,6 @@ class AddSong extends React.Component{
         
 
         addFromList = (e, track) => {
-            console.log(e.target.parentNode.className = 'list-group-item disabled')
             const playlistId = this.props.match.params.id
             const newSong = {name: track.track_name, artist: track.artist_name, album: track.album_name, playlist_id: playlistId}
             this.addSong(newSong)
@@ -101,7 +101,10 @@ class AddSong extends React.Component{
 
     render(){
         return(
+            <>
+            <Navbar />
             <div className="playlist-div new-form">
+                <Link to={`/playlists/${this.props.match.params.id}`}><button className="btn">Return to Playlist</button></Link>
                 <h2>Add Song Manually</h2>
             <form onSubmit={this.handleSubmit}>
                 <input className="form-control" name="name" placeholder="Song Title"/>
@@ -124,6 +127,7 @@ class AddSong extends React.Component{
                 null}
             </ul>
             </div>
+            </>
         )
     }
 }

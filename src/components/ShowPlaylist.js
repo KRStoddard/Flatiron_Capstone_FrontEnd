@@ -27,15 +27,22 @@ class ShowPlaylist extends React.Component{
     }
 
     renderSongs = () => {
+        if (this.state.playlist.playlist_additions.length > 0){
+            const additions = this.state.playlist.playlist_additions.sort(function(a,b){
+                if (a.song.artist < b.song.artist) {return -1}
+                if (a.song.artist > b.song.artist) {return 1}
+                return 0
+            })
         return this.state.playlist.playlist_additions.map(addition => 
         {return (
             <div>
-           <li className="list-group-item">{`${addition.song.name}, ${addition.song.artist}, ${addition.song.album}, ${addition.song.release_year}`}<br></br><br></br>
+           <li className="list-group-item">{`${addition.song.name}, ${addition.song.artist}, ${addition.song.album}`}<br></br><br></br>
            <Link onClick={() => this.removeSong(addition.song.id)}>Remove Song</Link>
            </li>
            
            </div>
            )})
+        }
     }
 
     handleToNewSong = () => {

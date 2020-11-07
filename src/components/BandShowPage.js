@@ -31,7 +31,13 @@ class BandShowPage extends React.Component{
     }
 
     renderSongs = () => {
-        const adds = this.state.additions.filter(add => add.played !== true)
+        let adds = this.state.additions.filter(add => add.played !== true)
+        if (adds.length > 0){
+            adds = adds.sort(function(a,b){
+                if (a.song.artist < b.song.artist) {return -1}
+                if (a.song.artist > b.song.artist) {return 1}
+                return 0
+            })
         return adds.map(add => 
         {return (
             // <div className="listsongs">
@@ -40,6 +46,7 @@ class BandShowPage extends React.Component{
         </li>
         //    </div>
            )})
+        }
     }
 
     renderRequests = () => {

@@ -238,3 +238,17 @@ input[type="color"]:focus,
   text-align: center;
   margin-bottom: 3%;
 }
+
+.disabled {
+  background-color: rgba(66, 13, 22, .25)!important;
+  border-color: grey!important;
+  color: grey!important;
+}
+
+.more-results {
+  color: white;
+}
+
+.more-results:hover {
+  color: rgb(110, 44, 69);
+}
