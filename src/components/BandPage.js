@@ -24,7 +24,12 @@ class BandPage extends React.Component{
     componentDidMount(){
         fetch(`${API_ROOT}/auto_login`, GET_REQUEST())
         .then(resp => resp.json())
-        .then(band => this.setState({band}))
+        .then(band => {
+            if (!band.message) {
+            this.setState({band})}
+            else {
+                this.props.history.push('/login')
+            }})
     }
 
     render(){
