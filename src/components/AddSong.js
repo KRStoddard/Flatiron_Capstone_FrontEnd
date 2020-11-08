@@ -2,6 +2,7 @@ import React from 'react'
 import {API_ROOT, createHeaders} from '../constants/index'
 import {Link} from 'react-router-dom'
 import Navbar from './Navbar'
+import Vinyl from '../images/vinyl.jpg'
 
 class AddSong extends React.Component{
 
@@ -12,7 +13,8 @@ class AddSong extends React.Component{
         totalTracks: "",
         lastTrack: 0,
         url: "",
-        errors: []
+        errors: [],
+        load: true
     }
 
     //handles submission of manual song addition
@@ -78,6 +80,8 @@ class AddSong extends React.Component{
      
     //executes search in the API
     executeSearch = url => {
+        const vinyl = document.querySelector('.spinner-img')
+        vinyl.className = 'spinner-img'
         const page = this.state.page += 1
         const api_url = `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?format=json&callback=callback`
         const pages = `&page_size=99&page=${page}&apikey=${process.env.REACT_APP_API_KEY}`
@@ -90,6 +94,7 @@ class AddSong extends React.Component{
         fetch(`${api_url}${url}${pages}`)
         .then(resp => resp.json())
         .then(data => {
+            vinyl.className='spinner-img hidden'
         this.setState({totalTracks: data.message.header.available, tracks: data.message.body.track_list, url: url, lastTrack, page})
     })
         .catch(err => {
@@ -142,6 +147,7 @@ class AddSong extends React.Component{
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             <ul className="list-group">
+                <img src={Vinyl} className="spinner-img hidden"/>
                 {this.renderTracks()}
                 {this.state.lastTrack < this.state.totalTracks ? 
                 <Link className='more-results' onClick={() => this.executeSearch(this.state.url)}>See More Results</Link>
