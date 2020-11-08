@@ -172,19 +172,12 @@ input[type="color"]:focus,
 }
 
 .band-reqs {
-  /* width: 50%;
-  float: left;
-  height: 100%; */
   text-align: center;
   border-bottom: solid 1px rgb(110, 44, 69);
   width: 100%;
   position: static;
-  height: 22rem;
 }
 .band-list {
-  /* width: 50%;
-  float: right;
-  height: 100%; */
   justify-content: center;
   width: 100%;
   margin-top: 3%;
@@ -195,9 +188,6 @@ input[type="color"]:focus,
   text-align: center;
 }
 
-.listsongs {
-  margin-bottom: 4%;
-}
 
 .listsongs button {
   margin-left: 35%;
@@ -207,7 +197,6 @@ input[type="color"]:focus,
   text-align: center;
   background-color: rgb(66, 13, 22);
   border: solid 2px white;
-  /* width: 75%; */
 }
 
 .list-group-item:hover {

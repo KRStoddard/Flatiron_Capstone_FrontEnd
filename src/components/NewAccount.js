@@ -1,17 +1,17 @@
 import React from 'react'
 import {Fragment} from 'react'
 import {createHeaders, API_ROOT} from '../constants/index'
+import Navbar from './Navbar'
 
 class NewAccount extends React.Component{
 
+    //local state for component class
     state = {
         errors: []
     }
 
-    // handleSelect = e => {
-    //     this.setState({accountType: e.target.value})
-    // }
-
+    //creates request for new band 
+    //if unable to validate it handles errors
     bandSubmit = e => {
         e.preventDefault()
         const {name, username, email, password} = e.target
@@ -32,16 +32,21 @@ class NewAccount extends React.Component{
             }})
     }
 
+    //renders errors on page
     renderErrors = () => {
         return this.state.errors.map(error => {
             return <p className="error">{error}</p>
         })
     }
 
-    
-    bandForm = () => {
+    //renders page
+    render(){
         return(
-            <Fragment>
+            <>
+            <Navbar props={this.props} />
+            <div className="playlist-div">
+                <h1>Create An Account</h1>
+                {this.renderErrors()}
                 <form className="new-form" onSubmit={this.bandSubmit}>
                     <div className="form-row">
                         <div className="col-md-6 mb-3">
@@ -58,33 +63,10 @@ class NewAccount extends React.Component{
                         <input name="password" type="password" className="form-control" placeholder="password" />
                         </div>
                     </div>
-                    {/* <div className="form-row">
-                        <div className="col-md-3 mb-3">
-                            
-                        </div>
-                    </div> */}
                     <button className="btn btn-primary" type="submit">Submit form</button>
                 </form>
-            </Fragment>
-        )
-    }
-
-    
-
-    render(){
-        return(
-            <div className="playlist-div">
-                <h1>Create An Account</h1>
-                {this.renderErrors()}
-            {/* <div className="input-group mb-2 mr-sm-2">
-                <select onChange={this.handleSelect} className="custom-select" id="validationDefault04" required>
-                    <option selected disabled value="">Choose...</option>
-                    <option>Band</option>
-                    <option>Venue</option>
-                </select>
-            </div> */}
-            {this.bandForm()}
         </div>
+        </>
         )
     }
 }

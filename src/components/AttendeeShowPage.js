@@ -6,6 +6,7 @@ import Navbar from './Navbar'
 
 class AttendeeShowPage extends React.Component{
 
+    //state for componenet class
     state = {
         playlist: {},
         additions: [],
@@ -13,23 +14,7 @@ class AttendeeShowPage extends React.Component{
         closed: false
     }
 
-    // requestSong = songId => {
-    //     const newReq = {song_id: songId, playlist_id: this.state.playlist.id, show_id: this.props.match.params.id}
-    //     console.log(newReq)
-    //     this.props.history.push({
-    //         pathname: '/requestsong',
-    //         state: newReq
-    //       })
-    //     const reqObj = {
-    //         method: 'POST',
-    //         headers: createHeaders(),
-    //         body: JSON.stringify({request: newReq})
-    //     }
-    //     fetch(`${API_ROOT}/requests`, reqObj)
-    //     .then(resp => resp.json())
-    //     .then(request => console.log(request))
-    // }
-
+    //renders songs available for request sorted by artist
     renderSongs = () => {
         let adds = this.state.additions.filter(add => add.played !== true)
         if (adds.length > 0){
@@ -50,6 +35,9 @@ class AttendeeShowPage extends React.Component{
         }
     }
 
+    //handles response from Actioncable Websocket
+    //ensures that attendees cannot request songs that
+    //have already been played
     handlePlayed = response => {
         const {playlist_addition} = response
         const newAdds = []
@@ -64,24 +52,24 @@ class AttendeeShowPage extends React.Component{
         this.setState({additions: newAdds})
     }
 
+    //changes the status of all requests for the show to closed
+    //ensures band can limit requests based on play time available
     endShow = () => {
-        console.log('hit')
         this.setState({closed: true})
     }
 
-
-
+    //immediately fetches information about the show they are viewing
     componentDidMount(){
-
         fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, GET_REQUEST())
         .then(resp => resp.json())
         .then(show => this.setState({playlist: show.playlist, additions: show.playlist_additions, price: show.price_per_request, closed: show.complete}))
     }
 
+    //renders the page
     render(){
         return(
             <>
-                <Navbar />
+                <Navbar props={this.props}/>
                 <div className="playlist-div">
                     <h1>Available Songs</h1>
                     <h3>Cost per Request: ${this.state.price}</h3>

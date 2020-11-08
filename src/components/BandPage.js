@@ -5,13 +5,14 @@ import {API_ROOT, GET_REQUEST} from '../constants/index'
 
 class BandPage extends React.Component{
 
-
+    //state for the class component
     state = {
         band: {
             shows: []
         }
     }
 
+    //determines whether band has a show currently open
     currentShow = () => {
         const show = this.state.band.shows.filter(show => show.complete !== true)
         if (show.length > 0) {
@@ -21,6 +22,8 @@ class BandPage extends React.Component{
         }
     }
 
+    //fetches info about the band or returns them to login
+    //if they are not logged in
     componentDidMount(){
         fetch(`${API_ROOT}/auto_login`, GET_REQUEST())
         .then(resp => resp.json())
@@ -32,6 +35,7 @@ class BandPage extends React.Component{
             }})
     }
 
+    //renders page
     render(){
         return(
             <>

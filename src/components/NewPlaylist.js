@@ -1,12 +1,16 @@
 import React from 'react'
 import {API_ROOT, createHeaders} from '../constants/index'
+import Navbar from './Navbar'
 
 class NewPlaylist extends React.Component{
 
+    //local state for component class
     state = {
         errors: []
     }
 
+    //sends info for new playlist to backend
+    //handles errors if validations aren't met
     handleSubmit = e => {
         e.preventDefault()
         const newList = {name: e.target.name.value}
@@ -28,14 +32,18 @@ class NewPlaylist extends React.Component{
         })
     }
 
+    //renders errors to page
     renderErrors = () => {
         return this.state.errors.map(error => {
             return <p className="error">{error}</p>
         })
     }
 
+    //renders page
     render(){
         return(
+            <>
+            <Navbar props={this.props} />
             <div className="playlist-div new-form">
                 <h2>Create Playlist</h2>
                 {this.renderErrors()}
@@ -44,6 +52,7 @@ class NewPlaylist extends React.Component{
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             </div>
+            </>
         )
     }
 }

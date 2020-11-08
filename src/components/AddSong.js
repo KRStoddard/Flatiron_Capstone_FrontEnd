@@ -5,6 +5,7 @@ import Navbar from './Navbar'
 
 class AddSong extends React.Component{
 
+    //local state for component class
     state = {
         tracks: [],
         page: 0,
@@ -14,6 +15,7 @@ class AddSong extends React.Component{
         errors: []
     }
 
+    //handles submission of manual song addition
     handleSubmit = e => {
         e.preventDefault()
         const playlistId = this.props.match.params.id
@@ -22,6 +24,8 @@ class AddSong extends React.Component{
         this.addSong(newAlbum)
     }
 
+    //actually sends the new song request to the database
+    //and handles errors
     addSong = body => {
         const reqObj = {
             method: 'POST',
@@ -39,12 +43,15 @@ class AddSong extends React.Component{
             }
         })
     }
+    //renders existing errors on the screen
     renderErrors = () => {
         return this.state.errors.map(error => {
             return <p className="error">{error}</p>
         })
     }
 
+    //creates first searche conditions MusixMatch API based on either
+    //track title, artist, or both
     handleSearch = e => {  
         e.preventDefault()
         let name
@@ -68,53 +75,55 @@ class AddSong extends React.Component{
         this.executeSearch(url)
         e.target.reset()
     }
+     
+    //executes search in the API
+    executeSearch = url => {
+        const page = this.state.page += 1
+        const api_url = `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?format=json&callback=callback`
+        const pages = `&page_size=99&page=${page}&apikey=${process.env.REACT_APP_API_KEY}`
+        let lastTrack
+        if (this.state.totalTracks > (this.state.lastTrack + 99)) {
+            lastTrack = this.state.lastTrack + 99
+        } else {
+            lastTrack = this.state.totalTracks
+        }
+        fetch(`${api_url}${url}${pages}`)
+        .then(resp => resp.json())
+        .then(data => {
+        this.setState({totalTracks: data.message.header.available, tracks: data.message.body.track_list, url: url, lastTrack, page})
+    })
+        .catch(err => {
+        console.error(err);
+        })  
+    }
+    
+    //creates info to send through addSong if selected
+    //from what the list the API returns
+    addFromList = track => {
+        const playlistId = this.props.match.params.id
+        const newSong = {name: track.track_name, artist: track.artist_name, album: track.album_name, playlist_id: playlistId}
+        this.addSong(newSong)
 
-        executeSearch = url => {
-            const page = this.state.page += 1
-            const api_url = `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?format=json&callback=callback`
-            const pages = `&page_size=99&page=${page}&apikey=${process.env.REACT_APP_API_KEY}`
-            let lastTrack
-            if (this.state.totalTracks > (this.state.lastTrack + 99)) {
-                lastTrack = this.state.lastTrack + 99
-            } else {
-                lastTrack = this.state.totalTracks
-            }
-            fetch(`${api_url}${url}${pages}`)
-            .then(resp => resp.json())
-            .then(data => {
-            this.setState({totalTracks: data.message.header.available, tracks: data.message.body.track_list, url: url, lastTrack, page})
+    }
+
+    //renders the list of tracks returned from API alphabetically by name
+    renderTracks = () => {
+        if (this.state.tracks.length > 0){
+        const tracks = this.state.tracks.sort(function(a,b){
+            if (a.track.track_name < b.track.track_name) {return -1}
+            if (a.track.track_name > b.track.track_name) {return 1}
+            return 0
         })
-            .catch(err => {
-	        console.error(err);
-            })  
-        }
-        
+        return tracks.map(track => {
+            return <li className="list-group-item"><Link key={track.track.track_id} onClick={e => this.addFromList(e, track.track)}>{track.track.track_name}, {track.track.artist_name}, {track.track.album_name}</Link></li>
+        })}
+    }
 
-        addFromList = (e, track) => {
-            const playlistId = this.props.match.params.id
-            const newSong = {name: track.track_name, artist: track.artist_name, album: track.album_name, playlist_id: playlistId}
-            this.addSong(newSong)
-
-        }
-
-        renderTracks = () => {
-            if (this.state.tracks.length > 0){
-            const tracks = this.state.tracks.sort(function(a,b){
-                if (a.track.track_name < b.track.track_name) {return -1}
-                if (a.track.track_name > b.track.track_name) {return 1}
-                return 0
-            })
-            return tracks.map(track => {
-                return <li className="list-group-item"><Link key={track.track.track_id} onClick={e => this.addFromList(e, track.track)}>{track.track.track_name}, {track.track.artist_name}, {track.track.album_name}</Link></li>
-            })}
-        }
-
-
-
+    //renders the page
     render(){
         return(
             <>
-            <Navbar />
+            <Navbar props={this.props} />
             <div className="playlist-div new-form">
                 <Link to={`/playlists/${this.props.match.params.id}`}><button className="btn">Return to Playlist</button></Link>
                 <h2>Add Song Manually</h2>

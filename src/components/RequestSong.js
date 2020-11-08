@@ -1,14 +1,17 @@
 import React from 'react'
 import {PayPalButton} from 'react-paypal-button-v2'
 import {API_ROOT, GET_REQUEST, createHeaders} from '../constants/index'
+import Navbar from './Navbar'
 
 class RequestSong extends React.Component{
 
+    //state for component class
     state = {
         show: "",
         song: ""
     }
 
+    //creates song request and sends it to backend
     requestSong = () => {
         const newReq = {song_id: this.state.song, playlist_id: this.state.show.playlist.id, show_id: this.state.show.id}
         const reqObj = {
@@ -17,10 +20,9 @@ class RequestSong extends React.Component{
             body: JSON.stringify({request: newReq})
         }
         fetch(`${API_ROOT}/requests`, reqObj)
-        // .then(resp => resp.json())
-        // .then(() => this.props.history.push(`/`))
     }
 
+    //immediately fetches info about the show and song
     componentDidMount(){
         const info = this.props.match.params.id.split('&')
         fetch(`${API_ROOT}/shows/${info[0]}`, GET_REQUEST())
@@ -28,6 +30,7 @@ class RequestSong extends React.Component{
         .then(show => this.setState({show: show, song: info[1]}))
     }
 
+    //renders if the show.price_per_request is above zero
     renderPayment = () => {
         return (
             <>
@@ -52,6 +55,7 @@ class RequestSong extends React.Component{
         )
     }
 
+    //renders if song requests are free
     renderFree = () => {
         return (
         <>
@@ -68,15 +72,18 @@ class RequestSong extends React.Component{
         )
     }
 
+    //renders page
     render(){
-        
         return(
+            <>
+            <Navbar props={this.props} />
             <div className="new-form">
             {this.state.show.price_per_request > 0 ?
                 this.renderPayment()
             :
                 this.renderFree()}
             </div>
+            </>
         )
     }
 }

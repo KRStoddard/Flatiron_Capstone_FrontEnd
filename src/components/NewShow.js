@@ -4,18 +4,22 @@ import Navbar from './Navbar'
 
 class NewShow extends React.Component{
 
+    //state for component class
     state = {
         playlists:["You have No Playlists"],
         playlist_id: "",
         errors: []
     }
 
+    //renders playlists for band in options
     renderPlaylists = () => {
         return this.state.playlists.map(playlist => {
             return <option id={playlist.id}>{playlist.name}</option>
         })
     }
 
+    //immediately fetches playlist for band or 
+    //if no one is signed in sends them to login
     componentDidMount(){
 
         fetch(`${API_ROOT}/playlists`, GET_REQUEST())
@@ -31,6 +35,8 @@ class NewShow extends React.Component{
         })
     }
 
+    //handles submission of new show to backend
+    //handles errors if validations aren't met
     handleSubmit = e => {
         e.preventDefault()
         const {venue, price} = e.target
@@ -54,17 +60,20 @@ class NewShow extends React.Component{
     })
     }
 
+    //renders errors
     renderErrors = () => {
         return this.state.errors.map(error => {
             return <p className="error">{error}</p>
         })
     }
 
+    //sets change when option selected in form
+    //this is so we can get id while displaying name
     handleChange = e => {
         this.setState({playlist_id: e.target.options[e.target.selectedIndex].id})
     }
     
-
+    //renders page
     render(){
         return(
             <div>

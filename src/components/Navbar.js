@@ -4,22 +4,19 @@ import {API_ROOT, GET_REQUEST} from '../constants/index'
 
 class Navbar extends React.Component{
 
+    //state for component class
     state = {
         band: {}
     }
 
-    // returnHome = () => {
-    //     fetch(`${API_ROOT}/auto_login`, GET_REQUEST())
-    //     .then(resp => resp.json())
-    //     .then(band => {this.props.props.history.push(`/bandpage/${band.id}`)})
-    // }
-
+    //immediately fetches info on band if signed in
     componentDidMount(){
         fetch(`${API_ROOT}/auto_login`, GET_REQUEST())
         .then(resp => resp.json())
         .then(band => this.setState({band}))
     }
 
+    //renders navbar based on whether band is signed in or not
     render(){
         return(
             <>

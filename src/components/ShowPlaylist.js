@@ -1,14 +1,16 @@
 import React from 'react'
-import {API_ROOT, createHeaders} from '../constants/index'
+import {API_ROOT, createHeaders, GET_REQUEST} from '../constants/index'
 import {Link} from 'react-router-dom'
 import Navbar from './Navbar'
 
 class ShowPlaylist extends React.Component{
 
+    //state for component class
     state = {
         playlist: {}
     }
 
+    //removes song from playlist
     removeSong = songId => {
         const newAddition = {song_id: songId, playlist_id: this.props.match.params.id}
         const reqObj = {
@@ -19,13 +21,13 @@ class ShowPlaylist extends React.Component{
         fetch(`${API_ROOT}/playlist_additions/${songId}`, reqObj)
         .then(resp => resp.json())
         .then(addition => {
-            console.log(addition)
             let playlist = {...this.state.playlist}
             playlist.playlist_additions = this.state.playlist.playlist_additions.filter(pAddition => pAddition.song_id !== addition.song_id)
             this.setState({playlist})
         })
     }
 
+    //renders songs sorted by artist
     renderSongs = () => {
         if (this.state.playlist.playlist_additions.length > 0){
             const additions = this.state.playlist.playlist_additions.sort(function(a,b){
@@ -45,10 +47,7 @@ class ShowPlaylist extends React.Component{
         }
     }
 
-    handleToNewSong = () => {
-        this.props.history.push(`/playlists/${this.state.playlist.id}/AddSong`)
-    }
-
+    //deletes playlist from database
     deletePlaylist = () => {
         const reqObj = {
             method: 'DELETE',
@@ -59,25 +58,24 @@ class ShowPlaylist extends React.Component{
         .then(() => this.props.history.push(`/playlists`))
     }
 
+    //immediately fetches playlist info
     componentDidMount(){
 
-        const reqObj = {
-            method: 'GET',
-            headers: createHeaders()
-        }
-
-        fetch(`${API_ROOT}/playlists/${this.props.match.params.id}`, reqObj)
+        fetch(`${API_ROOT}/playlists/${this.props.match.params.id}`, GET_REQUEST())
         .then(resp => resp.json())
         .then(playlist => this.setState({playlist}))
     }
 
+    //renders page
     render(){
         return(
             <div>
             <Navbar props={this.props}/>
             <div className="playlist-div">
             <h1>{this.state.playlist.name}</h1>
-            <button onClick={this.handleToNewSong} className="btn spl">Add Song</button>
+            <Link to={`/playlists/${this.state.playlist.id}/AddSong`}>
+                <button className="btn spl">Add Song</button>
+            </Link>
             <button onClick={this.deletePlaylist} className="btn spl">Delete Playlist</button>
             <ul className="list-group">
             {this.state.playlist.playlist_additions ?

@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 
 class BandShowPage extends React.Component{
 
-    
+    //state for component class    
     state = {
         playlist: {},
         additions: [],
@@ -15,6 +15,9 @@ class BandShowPage extends React.Component{
         id: ""
     }
 
+    //when a song is marked as played
+    //this function removes it from the screen and 
+    //updates the database with that info
     removeSong = songId => {
         const newAddition = {song_id: songId, playlist_id: this.state.playlist.id}
         const reqObj = {
@@ -30,6 +33,7 @@ class BandShowPage extends React.Component{
         this.setState({requests, additions})
     }
 
+    //renders unplayed songs sorted by artist
     renderSongs = () => {
         let adds = this.state.additions.filter(add => add.played !== true)
         if (adds.length > 0){
@@ -40,15 +44,14 @@ class BandShowPage extends React.Component{
             })
         return adds.map(add => 
         {return (
-            // <div className="listsongs">
            <li className="list-group-item">{`${add.song.name}, ${add.song.artist}, ${add.song.album}, ${add.song.release_year}`}<br></br><br></br>
            <Link onClick={() => this.removeSong(add.song.id)}>Mark as Played</Link>
         </li>
-        //    </div>
            )})
         }
     }
 
+    //renders requests
     renderRequests = () => {
          return this.state.requests.map(request => {
             return <div className="listsongs">
@@ -59,6 +62,7 @@ class BandShowPage extends React.Component{
          })
     }
 
+    //renders a button based on whether requests are open or closed
     renderButton = () => {
         if (this.state.closed !== true) {
             return <button className="btn" onClick={this.endReq}>End Requests</button>
@@ -67,10 +71,9 @@ class BandShowPage extends React.Component{
         }
     }
 
+    //ends show completely and updates backend
     endShow = () => {
-
         const id = this.props.match.params.id
-
         const reqObj = {
             method: 'DELETE',
             headers: createHeaders(),
@@ -80,6 +83,9 @@ class BandShowPage extends React.Component{
         this.props.history.push(`/bandpage/${id}`)
     }
 
+    //when a request is sent through ActionCable websocket
+    //this method renders it based on whether or not it has
+    //already been requested
     handleRequests = response => {
         const {request} = response
         const show = parseInt(request.show_id, 10)
@@ -93,19 +99,8 @@ class BandShowPage extends React.Component{
         
     }
 
-    //  array_move = (arr, old_index, new_index) => {
-    //     if (new_index >= arr.length) {
-    //         var k = new_index - arr.length + 1
-    //         while (k--) {
-    //             arr.push(undefined)
-    //         }
-    //     }
-    //     arr.splice(new_index, 0, arr.splice(old_index, 1)[0])
-    //     return arr
-    // }
-
+    //immediately fetches information about the show and the band
     componentDidMount(){
-
 
         fetch(`${API_ROOT}/shows/${this.props.match.params.id}`, GET_REQUEST())
         .then(resp => resp.json())
@@ -116,6 +111,7 @@ class BandShowPage extends React.Component{
         .then(band => this.setState({id: band.id}))
     }
 
+    //ends requests for the show and updates backend
     endReq = () => {
         const reqObj = {
             method: 'PATCH',
@@ -126,6 +122,7 @@ class BandShowPage extends React.Component{
         this.setState({closed: true})
     }
 
+    //renders the page
     render(){
         return(
             <>

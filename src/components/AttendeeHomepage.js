@@ -5,17 +5,21 @@ import Navbar from './Navbar'
 
 class AttendeeHomepage extends React.Component{
 
+    //state for component class
     state = {
         shows: [],
         search: ""
     }
 
+    //immediately fetches list of all available shows
     componentDidMount(){
         fetch(`${API_ROOT}/shows`, GET_REQUEST())
         .then(resp => resp.json())
         .then(shows => this.setState({shows}))
     }
 
+    //renders list of shows based on search
+    //for either venue or band
     renderShows = () => {
         let shows = this.state.shows
             if (this.state.search.length > 0){
@@ -30,12 +34,11 @@ class AttendeeHomepage extends React.Component{
         })
     }
 
-
+    //renders the page
     render(){
-
         return(
             <div>
-                <Navbar />
+                <Navbar props={this.props} />
                 <div className="playlist-div">
                 <h1>Find A Show!</h1>
                 <form onSubmit={e => e.preventDefault()} className="searchform">
