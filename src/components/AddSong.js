@@ -108,21 +108,40 @@ class AddSong extends React.Component{
         })}
     }
 
+    //hides or shows manually entry form
+
+    showForm = () => {
+        let form = document.querySelector(`.manual`)
+        let button = document.querySelector('.manual-btn')
+        console.log(form)
+        console.log(button)
+        if (form.className === 'manual') {
+            form.className = 'manual hidden'
+            button.className = 'btn manual-btn'
+        } else {
+            form.className = 'manual'
+            button.innerText = 'Hide Manual Entry'
+        }
+    }
+
     //renders the page
     render(){
         return(
             <>
             <Navbar props={this.props} />
             <div className="playlist-div new-form">
-                <Link to={`/playlists/${this.props.match.params.id}`}><button className="btn">Return to Playlist</button></Link>
-                <h2>Add Song Manually</h2>
-                {this.renderErrors()}
-            <form onSubmit={this.handleSubmit}>
-                <input className="form-control" name="name" placeholder="Song Title"/>
-                <input className="form-control" name="artist" placeholder="Artist"/>
-                <input className="form-control" name="album" placeholder="Album"/>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+                <Link to={`/playlists/${this.props.match.params.id}`}><button className="btn">Return to Playlist</button></Link><br></br>
+            <button className="btn manual-btn" onClick={this.showForm}>Add a Song Manually</button>
+                <div className="manual hidden">
+                    <h2>Add Song Manually</h2>
+                    {this.renderErrors()}
+                    <form onSubmit={this.handleSubmit}>
+                        <input className="form-control" name="name" placeholder="Song Title"/>
+                        <input className="form-control" name="artist" placeholder="Artist"/>
+                        <input className="form-control" name="album" placeholder="Album"/>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
                 <h2>Search for Song/Artist</h2>
                 {this.renderErrors()}
                 <form onSubmit={this.handleSearch}>
