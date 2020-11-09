@@ -197,6 +197,7 @@ input[type="color"]:focus,
   text-align: center;
   background-color: rgb(66, 13, 22);
   border: solid 2px white;
+  color: white;
 }
 
 .list-group-item:hover {
