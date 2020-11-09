@@ -10,7 +10,7 @@ class AddSong extends React.Component{
     state = {
         tracks: [],
         page: 0,
-        totalTracks: "",
+        totalTracks: 0,
         lastTrack: 0,
         url: "",
         errors: [],
@@ -59,21 +59,23 @@ class AddSong extends React.Component{
         const name = e.target.name.value.length > 0 ? `&q_track=${e.target.name.value}` : ''
         const artist = e.target.artist.value.length > 0 ? `&q_artist=${e.target.artist.value}` : ''
         const url = `${name}${artist}`
-        this.executeSearch(url)
+        this.executeSearch(url, 0, true)
         e.target.reset()
     }
      
     //executes search in the API
-    executeSearch = url => {
+    executeSearch = (url, pagenum, first) => {
         const vinyl = document.querySelector('.spinner-img')
         vinyl.className = 'spinner-img'
-        const page = this.state.page += 1
+        const page = pagenum += 1
         const api_url = `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?format=json&callback=callback`
-        const pages = `&page_size=99&page=${page}&apikey=${process.env.REACT_APP_API_KEY}`
+        const pages = `&page_size=50&page=${page}&apikey=${process.env.REACT_APP_API_KEY}`
         let lastTrack
-        if (this.state.totalTracks > (this.state.lastTrack + 99)) {
-            lastTrack = this.state.lastTrack + 99
-        }
+        if (first === true) {
+            lastTrack = 50
+        } else if (this.state.totalTracks > (this.state.lastTrack + 50)) {
+            lastTrack = this.state.lastTrack + 50
+        } 
         fetch(`${api_url}${url}${pages}`)
         .then(resp => resp.json())
         .then(data => {
@@ -153,7 +155,7 @@ class AddSong extends React.Component{
                 <img src={Vinyl} className="spinner-img hidden"/>
                 {this.renderTracks()}
                 {this.state.lastTrack < this.state.totalTracks ? 
-                <Link className='more-results' onClick={() => this.executeSearch(this.state.url)}>See More Results</Link>
+                <Link className='more-results' onClick={() => this.executeSearch(this.state.url, this.state.page, false)}>See More Results</Link>
                 : 
                 null}
             </ul>
