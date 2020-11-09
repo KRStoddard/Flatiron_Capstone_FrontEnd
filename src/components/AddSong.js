@@ -56,24 +56,9 @@ class AddSong extends React.Component{
     //track title, artist, or both
     handleSearch = e => {  
         e.preventDefault()
-        let name
-        let artist
-        let url
-        if (e.target.name.value.length > 0) {
-            name = `&q_track=${e.target.name.value}`
-        }
-        if (e.target.artist.value.length > 0) {
-            artist = `&q_artist=${e.target.artist.value}`
-        }
-
-        if (name && artist) {
-            url = `${name}${artist}`
-        } else if (name && !artist) {
-            url = `${name}`
-        } else if (artist && !name) {
-            url = `${artist}`
-        }
-
+        const name = e.target.name.value.length > 0 ? `&q_track=${e.target.name.value}` : ''
+        const artist = e.target.artist.value.length > 0 ? `&q_artist=${e.target.artist.value}` : ''
+        const url = `${name}${artist}`
         this.executeSearch(url)
         e.target.reset()
     }
@@ -88,12 +73,11 @@ class AddSong extends React.Component{
         let lastTrack
         if (this.state.totalTracks > (this.state.lastTrack + 99)) {
             lastTrack = this.state.lastTrack + 99
-        } else {
-            lastTrack = this.state.totalTracks
         }
         fetch(`${api_url}${url}${pages}`)
         .then(resp => resp.json())
         .then(data => {
+            lastTrack = lastTrack > 0 ? lastTrack : data.message.header.available
             vinyl.className='spinner-img hidden'
         this.setState({totalTracks: data.message.header.available, tracks: data.message.body.track_list, url: url, lastTrack, page})
     })

@@ -88,15 +88,10 @@ class BandShowPage extends React.Component{
     //already been requested
     handleRequests = response => {
         const {request} = response
-        const show = parseInt(request.show_id, 10)
-        const thisShow = parseInt(this.props.match.params.id, 10)
-        if (show === thisShow) {
-            const num = parseInt((this.state.requests.filter(req => req.song.id === request.song.id).length), 10)
+        const num = parseInt((this.state.requests.filter(req => req.song.id === request.song.id).length), 10)
             if (num === 0) {
                 this.setState({requests: [...this.state.requests, request]})
-            }
-        }
-        
+            } 
     }
 
     //immediately fetches information about the show and the band
