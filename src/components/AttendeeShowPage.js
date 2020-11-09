@@ -79,7 +79,7 @@ class AttendeeShowPage extends React.Component{
                             onReceived={this.endShow}
                         />
                         <ActionCableConsumer 
-                                channel={{channel: 'PlaylistAdditionsChannel'}}
+                                channel={{channel: 'PlaylistAdditionsChannel', show: this.props.match.params.id}}
                                 onReceived={this.handlePlayed}
                             />
                         {this.state.closed === true ? 

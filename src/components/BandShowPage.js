@@ -19,7 +19,7 @@ class BandShowPage extends React.Component{
     //this function removes it from the screen and 
     //updates the database with that info
     removeSong = songId => {
-        const newAddition = {song_id: songId, playlist_id: this.state.playlist.id}
+        const newAddition = {song_id: songId, playlist_id: this.state.playlist.id, show: this.props.match.params.id}
         const reqObj = {
             method: 'PATCH',
             headers: createHeaders(),
@@ -135,7 +135,7 @@ class BandShowPage extends React.Component{
                     {this.renderRequests()}
                     </ul>
                     <ActionCableConsumer 
-                        channel={{channel: 'RequestsChannel'}}
+                        channel={{channel: 'RequestsChannel', show: this.props.match.params.id}}
                         onReceived={this.handleRequests}
                     />
                 </div>
