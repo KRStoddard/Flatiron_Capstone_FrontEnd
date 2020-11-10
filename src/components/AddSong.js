@@ -24,6 +24,7 @@ class AddSong extends React.Component{
         const {name, artist, album} = e.target
         const newAlbum = {name: name.value, artist: artist.value, album: album.value, playlist_id: playlistId}
         this.addSong(newAlbum)
+
     }
 
     //actually sends the new song request to the database
@@ -67,14 +68,17 @@ class AddSong extends React.Component{
     executeSearch = (url, pagenum, first) => {
         const vinyl = document.querySelector('.spinner-img')
         vinyl.className = 'spinner-img'
+        const back = pagenum === this.state.page - 2
         const page = pagenum += 1
         const api_url = `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?format=json&callback=callback`
-        const pages = `&page_size=50&page=${page}&apikey=${process.env.REACT_APP_API_KEY}`
+        const pages = `&page_size=30&page=${page}&apikey=${process.env.REACT_APP_API_KEY}`
         let lastTrack
         if (first === true) {
-            lastTrack = 50
-        } else if (this.state.totalTracks > (this.state.lastTrack + 50)) {
-            lastTrack = this.state.lastTrack + 50
+            lastTrack = 30
+        } else if (back) {
+            lastTrack = this.state.lastTrack - 30
+        } else if (this.state.totalTracks > (this.state.lastTrack + 30)) {
+            lastTrack = this.state.lastTrack + 30
         } 
         fetch(`${api_url}${url}${pages}`)
         .then(resp => resp.json())
@@ -106,7 +110,7 @@ class AddSong extends React.Component{
             return 0
         })
         return tracks.map(track => {
-            return <li className="list-group-item"><Link key={track.track.track_id} onClick={e => this.addFromList(e, track.track)}>{track.track.track_name}, {track.track.artist_name}, {track.track.album_name}</Link></li>
+            return <li className="list-group-item"><Link key={track.track.track_id} onClick={e => this.addFromList(track.track)}>{track.track.track_name}, {track.track.artist_name}, {track.track.album_name}</Link></li>
         })}
     }
 
@@ -154,6 +158,10 @@ class AddSong extends React.Component{
             <ul className="list-group">
                 <img src={Vinyl} className="spinner-img hidden"/>
                 {this.renderTracks()}
+                {this.state.page > 1 ? 
+                <Link className='more-results' onClick={() => this.executeSearch(this.state.url, this.state.page - 2, false)}>See Last</Link>
+                :
+                null}
                 {this.state.lastTrack < this.state.totalTracks ? 
                 <Link className='more-results' onClick={() => this.executeSearch(this.state.url, this.state.page, false)}>See More Results</Link>
                 : 
