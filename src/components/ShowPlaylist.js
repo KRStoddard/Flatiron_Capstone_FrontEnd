@@ -22,7 +22,7 @@ class ShowPlaylist extends React.Component{
         .then(resp => resp.json())
         .then(addition => {
             let playlist = {...this.state.playlist}
-            playlist.playlist_additions = this.state.playlist.playlist_additions.filter(pAddition => pAddition.song_id !== addition.song_id)
+            playlist.playlist_additions = playlist.playlist_additions.filter(pAddition => pAddition.song.id !== addition.song.id)
             this.setState({playlist})
         })
     }
