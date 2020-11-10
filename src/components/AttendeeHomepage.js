@@ -39,8 +39,8 @@ class AttendeeHomepage extends React.Component{
         return(
             <div>
                 <Navbar props={this.props} />
-                <div className="playlist-div">
-                <h1>Find A Show!</h1>
+                <div className="playlist-div new-form">
+                <h2>Find A Show!</h2>
                 <form onSubmit={e => e.preventDefault()} className="searchform">
                     <input onChange={e => this.setState({search: e.target.value})} className="searchbar" type="text" name="search" placeholder="Search by Band or Venue"/>
                  </form>

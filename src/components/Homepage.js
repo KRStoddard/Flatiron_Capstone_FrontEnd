@@ -7,11 +7,11 @@ const Homepage = () => {
     return(
         <>
         <Navbar />
-        <div className="container text-center new-form">
+        <div className="text-center new-form">
                 <h1>JUKEBOX LIVE</h1>
-                <h2>Are You A...</h2>
-                <Link className="home-link" id="bandlink" to="/login">Band</Link>
-                <Link className="home-link" id="attlink" to="/attendeepage">Show Attendee</Link>
+                <h3>Are You A...</h3>
+                <Link className="home-link" id="bandlink" to="/login">Performer</Link>
+                <Link className="home-link" id="attlink" to="/attendeepage">Attendee</Link>
         </div>
         </>
     )

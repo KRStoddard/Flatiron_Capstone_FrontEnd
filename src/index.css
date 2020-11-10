@@ -19,26 +19,25 @@ code {
     monospace;
 }
 
-.container h1 {
+.new-form h1 {
   font-family: 'Faster One', cursive;
   background: -webkit-linear-gradient( white, rgb(110, 44, 69), rgb(66, 13, 22));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 3rem;
+  padding: 2%;
 }
 
-.container h2{
+h3{
   font-size: 1rem;
   color: white;
-  text-align: left;
-  margin-left: 30%;
-  margin-bottom: 7%;
+  margin-right: 50%;
   position: relative;
 }
 
 .home-link {
   color: rgb(110, 44, 69);
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 .home-link:hover {
@@ -140,10 +139,11 @@ input[type="color"]:focus,
 }
 
 .new-form {
-  width: 65%;
+  min-width: 65%;
+  max-width: 70%;
   margin: auto;
   text-align: center;
-  margin-top: 15%;
+  margin-top: 5%;
   color: white;
   padding: 2%;
   border-radius: 20px;
@@ -152,7 +152,7 @@ input[type="color"]:focus,
     box-shadow: 0 0 20px 5px rgb(66, 13, 22);
 }
 .new-form h2 {
-  margin-bottom: 10%;
+  margin-bottom: 5%;
 }
 
 .new-form input,
@@ -232,7 +232,7 @@ input[type="color"]:focus,
 .disabled {
   background-color: rgba(66, 13, 22, .25)!important;
   border-color: grey!important;
-  color: grey!important;
+  color: rgb(110, 44, 69)!important;
 }
 
 .more-results {
@@ -249,6 +249,18 @@ input[type="color"]:focus,
 
 .hidden {
   display: none;
+}
+
+h2 {
+  margin-top: 5%;
+}
+
+#spinner-now {
+  height: 50%;
+  width: 50%;
+  margin-left: 25%;
+  margin-bottom: 25%;
+  position: static;
 }
 
 .spinner-img {

@@ -94,9 +94,10 @@ class AddSong extends React.Component{
     
     //creates info to send through addSong if selected
     //from what the list the API returns
-    addFromList = track => {
+    addFromList = (e, track) => {
         const playlistId = this.props.match.params.id
         const newSong = {name: track.track_name, artist: track.artist_name, album: track.album_name, playlist_id: playlistId}
+        e.target.parentNode.className="list-group-item disabled"
         this.addSong(newSong)
 
     }
@@ -110,17 +111,17 @@ class AddSong extends React.Component{
             return 0
         })
         return tracks.map(track => {
-            return <li className="list-group-item"><Link key={track.track.track_id} onClick={e => this.addFromList(track.track)}>{track.track.track_name}, {track.track.artist_name}, {track.track.album_name}</Link></li>
+            return <li className="list-group-item">
+                <Link key={track.track.track_id} 
+                    onClick={e => this.addFromList(e, track.track)}>{track.track.track_name}, {track.track.artist_name}, {track.track.album_name}
+                </Link></li>
         })}
     }
 
     //hides or shows manually entry form
-
     showForm = () => {
         let form = document.querySelector(`.manual`)
         let button = document.querySelector('.manual-btn')
-        console.log(form)
-        console.log(button)
         if (form.className === 'manual') {
             form.className = 'manual hidden'
             button.className = 'btn manual-btn'

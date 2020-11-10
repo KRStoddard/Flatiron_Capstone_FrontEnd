@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from './Navbar'
 import {Link} from 'react-router-dom'
 import {API_ROOT, GET_REQUEST} from '../constants/index'
+import Vinyl from '../images/vinyl.jpg'
 
 class BandPage extends React.Component{
 
@@ -43,10 +44,11 @@ class BandPage extends React.Component{
             {this.currentShow() ? 
                 this.props.history.push(`/bandshowpage/${this.currentShow()}`)
             :
-            <div className="container justify-content-center text-center new-form">
+            <div className="justify-content-center text-center new-form">
                 <Link className="nShowLink" to="/NewShow">Start a New Show</Link>
             </div>
             }
+            <img src={Vinyl} className="spinner-img" id="spinner-now" />
             </>
         )
     }
