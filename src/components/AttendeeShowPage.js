@@ -72,7 +72,7 @@ class AttendeeShowPage extends React.Component{
                 <Navbar props={this.props}/>
                 <div className="playlist-div">
                     <h1>Available Songs</h1>
-                    <h3>Cost per Request: ${this.state.price}</h3>
+                    <h2>Cost per Request: ${this.state.price}</h2>
                     <ul className="list-group">
                         <ActionCableConsumer 
                             channel={{channel: 'ShowsChannel'}}

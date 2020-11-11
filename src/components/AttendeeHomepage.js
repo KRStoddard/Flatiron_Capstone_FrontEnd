@@ -49,7 +49,7 @@ class AttendeeHomepage extends React.Component{
                     {this.renderShows()}
                     </ul>
                 :
-                    <div>
+                    <div className="playlist-div new-form">
                     <h2>Sorry, There Are No Shows Using Jukebox Live at This Time</h2>
                     <button className="btn" onClick={() => this.props.history.push('/')}>Go Back</button>
                     </div>
