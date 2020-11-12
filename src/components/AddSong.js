@@ -85,6 +85,11 @@ class AddSong extends React.Component{
         .then(data => {
             lastTrack = lastTrack > 0 ? lastTrack : data.message.header.available
             vinyl.className='spinner-img hidden'
+            if (document.querySelector('.list-group-item')){
+                document.querySelectorAll('.list-group-item').forEach(li => {
+                    li.className="list-group-item"
+                })
+            }
         this.setState({totalTracks: data.message.header.available, tracks: data.message.body.track_list, url: url, lastTrack, page})
     })
         .catch(err => {
