@@ -2,7 +2,6 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import Navbar from './Navbar'
 import {API_ROOT, createHeaders} from '../constants/index'
-import Vinyl from '../images/vinyl.jpg'
 
 class WithSpotify extends React.Component {
 
@@ -77,11 +76,6 @@ class WithSpotify extends React.Component {
         this.setState({tracks: theseTracks, id: id})
     }
 
-    //renders vinyl spinner
-    renderVinyl = () => {
-        return <img src={Vinyl} className="spinner-img" />
-    }
-
     //gets user's playlists from spotify on load
    componentDidMount(){
         const {history, location} = this.props
@@ -130,7 +124,7 @@ class WithSpotify extends React.Component {
         }
     }
 
-    //renders the page 
+    //renders page 
     render(){
         return(
             <>
