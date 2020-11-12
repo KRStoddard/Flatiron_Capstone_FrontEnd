@@ -22,8 +22,8 @@ class AddSong extends React.Component{
         e.preventDefault()
         const playlistId = this.props.match.params.id
         const {name, artist, album} = e.target
-        const newAlbum = {name: name.value, artist: artist.value, album: album.value, playlist_id: playlistId}
-        this.addSong(newAlbum)
+        const newSong = {name: name.value, artist: artist.value, album: album.value, playlist_id: playlistId}
+        this.addSong(newSong)
 
     }
 

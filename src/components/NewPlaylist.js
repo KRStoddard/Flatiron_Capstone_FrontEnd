@@ -1,6 +1,7 @@
 import React from 'react'
 import {API_ROOT, createHeaders} from '../constants/index'
 import Navbar from './Navbar'
+import {Link} from 'react-router-dom'
 
 class NewPlaylist extends React.Component{
 
@@ -32,6 +33,10 @@ class NewPlaylist extends React.Component{
         })
     }
 
+    handleLogin = () => {
+        window.location = `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_KEY}&redirect_uri=http://localhost:3000/WithSpotify&response_type=token&show_dialog=true`
+    }
+
     //renders errors to page
     renderErrors = () => {
         return this.state.errors.map(error => {
@@ -45,12 +50,14 @@ class NewPlaylist extends React.Component{
             <>
             <Navbar props={this.props} />
             <div className="playlist-div new-form">
-                <h2>Create Playlist</h2>
+                <h2>Create Playlist Manually</h2>
                 {this.renderErrors()}
             <form onSubmit={this.handleSubmit}>
                 <input className="form-control" name="name" placeholder="Playlist Name" />
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <h2>Or Import Playlist From Spotify</h2>
+            <button className="btn" onClick={this.handleLogin}>Login With Spotify</button>
             </div>
             </>
         )
