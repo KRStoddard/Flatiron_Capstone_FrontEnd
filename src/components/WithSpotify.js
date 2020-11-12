@@ -6,6 +6,7 @@ import Vinyl from '../images/vinyl.jpg'
 
 class WithSpotify extends React.Component {
 
+    //component class state
     state = {
         playlists: [],
         errors: [],
@@ -13,6 +14,7 @@ class WithSpotify extends React.Component {
         id: ""
     }
 
+    //sets auth token header
     setAuthHeader = () => {
         const params = JSON.parse(localStorage.getItem('params'))
         if(params) {
@@ -23,58 +25,64 @@ class WithSpotify extends React.Component {
         
     }
 
+//sets token and token type
     getParamValues = (url) => {
         return url
-          .slice(1)
-          .split('&')
-          .reduce((prev, curr) => {
+            .slice(1)
+            .split('&')
+            .reduce((prev, curr) => {
             const [title, value] = curr.split('=')
             prev[title] = value
             return prev
-          }, {})
-      }
+            }, {})
+    }
 
-      createPlaylist = e => {
-        const newList = {name: e.target.innerText}
-        const reqObj = {
-            method: 'POST',
-            headers: createHeaders(),
-            body: JSON.stringify(newList)
+    //creates a new playlist when one is selected
+    createPlaylist = e => {
+    const newList = {name: e.target.innerText}
+    const reqObj = {
+        method: 'POST',
+        headers: createHeaders(),
+        body: JSON.stringify(newList)
+    }
+
+    fetch(`${API_ROOT}/playlists`, reqObj)
+    .then(resp => resp.json())
+    .then(playlist => {
+        if (!playlist.errors) {
+            this.importPlaylist(e, playlist.id)
+        } else {
+            this.setState({errors: playlist.errors})
         }
+    })
+    }
 
-        fetch(`${API_ROOT}/playlists`, reqObj)
+    //gets the tracks from selected playlist
+    importPlaylist = (e, id) => {
+        const reqObj = {method: 'GET', headers: this.setAuthHeader()}
+        fetch(`${e.target.id}/tracks`, reqObj)
         .then(resp => resp.json())
-        .then(playlist => {
-            if (!playlist.errors) {
-                this.importPlaylist(e, playlist.id)
-            } else {
-                this.setState({errors: playlist.errors})
-            }
+        .then(tracks => {
+        this.importTracks(tracks.items, id)
+    })
+    }
+
+    //sets track info to the state
+    importTracks = (tracks, id) => {
+        const theseTracks = []
+        tracks.forEach(track => {
+        const newSong = {id: track.track.id, name: track.track.name, artist: track.track.album.name, album: track.track.artists[0].name, playlist_id: id}
+        theseTracks.push(newSong)
         })
-      }
+        this.setState({tracks: theseTracks, id: id})
+    }
 
-      importPlaylist = (e, id) => {
-          const reqObj = {method: 'GET', headers: this.setAuthHeader()}
-          fetch(`${e.target.id}/tracks`, reqObj)
-          .then(resp => resp.json())
-          .then(tracks => {
-            this.importTracks(tracks.items, id)
-        })
-      }
+    //renders vinyl spinner
+    renderVinyl = () => {
+        return <img src={Vinyl} className="spinner-img" />
+    }
 
-      importTracks = (tracks, id) => {
-          const theseTracks = []
-          tracks.forEach(track => {
-            const newSong = {id: track.track.id, name: track.track.name, artist: track.track.album.name, album: track.track.artists[0].name, playlist_id: id}
-            theseTracks.push(newSong)
-          })
-          this.setState({tracks: theseTracks, id: id})
-      }
-
-      renderVinyl = () => {
-          return <img src={Vinyl} className="spinner-img" />
-      }
-
+    //gets user's playlists from spotify on load
    componentDidMount(){
         const {history, location} = this.props
         const access_token = this.getParamValues(location.hash)
@@ -91,10 +99,12 @@ class WithSpotify extends React.Component {
         .then(playlists => this.setState({playlists}))
     }
 
+    //executes executeAddTrack when componenet updates
     componentDidUpdate(){
         this.executeAddTrack()
     }
 
+    //adds each playlist track to the database
     executeAddTrack = () => {
         if (this.state.tracks.length > 0) {
             this.state.tracks.forEach(track => {
@@ -111,6 +121,7 @@ class WithSpotify extends React.Component {
         }
     }
 
+    //renders user's playlists
     renderPlaylists = () => {
         if (this.state.playlists.items) {
         return this.state.playlists.items.map(playlist => {
@@ -119,7 +130,7 @@ class WithSpotify extends React.Component {
         }
     }
 
-         
+    //renders the page 
     render(){
         return(
             <>
