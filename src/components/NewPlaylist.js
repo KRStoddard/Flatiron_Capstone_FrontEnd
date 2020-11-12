@@ -56,7 +56,8 @@ class NewPlaylist extends React.Component{
                 <input className="form-control" name="name" placeholder="Playlist Name" />
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-            <h2>Or Import Playlist From Spotify</h2>
+            <p>Or</p>
+            <h2>Import Playlist From Spotify</h2>
             <button className="btn" onClick={this.handleLogin}>Login With Spotify</button>
             </div>
             </>
