@@ -26,7 +26,8 @@ class NewAccount extends React.Component{
         .then(resp => resp.json())
         .then(band => {
             if (!band.errors) {
-             this.props.history.push(`/bandpage/${band.band.id}`)
+                localStorage.setItem('bandToken', band.token)
+                this.props.history.push(`/bandpage/${band.band.id}`)
             } else {
                 this.setState({errors: band.errors})
             }})
