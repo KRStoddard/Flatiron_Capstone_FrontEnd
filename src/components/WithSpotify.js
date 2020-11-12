@@ -114,7 +114,7 @@ class WithSpotify extends React.Component {
     renderPlaylists = () => {
         if (this.state.playlists.items) {
         return this.state.playlists.items.map(playlist => {
-            return <li onClick={this.createPlaylist} className="list-group-item" id={playlist.href}>{playlist.description}</li>
+            return <li onClick={this.createPlaylist} className="list-group-item spotify" id={playlist.href}>{playlist.description}</li>
         })
         }
     }

@@ -263,6 +263,10 @@ h2 {
   position: static;
 }
 
+.spotify {
+  cursor: pointer;
+}
+
 .spinner-img {
     top: 50%;
     left: 50%;
